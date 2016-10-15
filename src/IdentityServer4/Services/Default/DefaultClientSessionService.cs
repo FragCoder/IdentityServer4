@@ -2,16 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 using System;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer4.Extensions;
+using IdentityServer4.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace IdentityServer4.Services.Default
 {
@@ -22,7 +23,7 @@ namespace IdentityServer4.Services.Default
         static readonly JsonSerializerSettings settings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore
         };
 
         private readonly IHttpContextAccessor _context;

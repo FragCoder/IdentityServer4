@@ -2,19 +2,19 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
 using System.Linq;
-using IdentityServer4.Services;
-using System.Security.Claims;
-using IdentityModel.Client;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Builder;
-using FluentAssertions;
 using System.Net;
-using IdentityServer4.Configuration;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel.Client;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models.Messages;
+using IdentityServer4.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityServer4.IntegrationTests.Common
 {
@@ -37,9 +37,9 @@ namespace IdentityServer4.IntegrationTests.Common
             Error = OnError;
             FederatedSignOut = OnFederatedSignOut;
 
-            this.OnConfigureServices += MockAuthorizationPipeline_OnConfigureServices;
-            this.OnPreConfigure += MockAuthorizationPipeline_OnPreConfigure;
-            this.OnPostConfigure += MockAuthorizationPipeline_OnPostConfigure;
+            OnConfigureServices += MockAuthorizationPipeline_OnConfigureServices;
+            OnPreConfigure += MockAuthorizationPipeline_OnPreConfigure;
+            OnPostConfigure += MockAuthorizationPipeline_OnPostConfigure;
         }
 
         private void MockAuthorizationPipeline_OnConfigureServices(IServiceCollection obj)
@@ -113,7 +113,7 @@ namespace IdentityServer4.IntegrationTests.Common
             {
                 await ctx.Authentication.SignInAsync(CookieAuthenticationScheme, Subject);
                 Subject = null;
-                var url = ctx.Request.Query[this.Options.UserInteractionOptions.LoginReturnUrlParameter].FirstOrDefault();
+                var url = ctx.Request.Query[Options.UserInteractionOptions.LoginReturnUrlParameter].FirstOrDefault();
                 if (url != null)
                 {
                     ctx.Response.Redirect(url);
@@ -161,7 +161,7 @@ namespace IdentityServer4.IntegrationTests.Common
                 await interaction.GrantConsentAsync(ConsentRequest, ConsentResponse);
                 ConsentResponse = null;
 
-                var url = ctx.Request.Query[this.Options.UserInteractionOptions.ConsentReturnUrlParameter].FirstOrDefault();
+                var url = ctx.Request.Query[Options.UserInteractionOptions.ConsentReturnUrlParameter].FirstOrDefault();
                 if (url != null)
                 {
                     ctx.Response.Redirect(url);
@@ -251,12 +251,12 @@ namespace IdentityServer4.IntegrationTests.Common
             return url;
         }
 
-        public IdentityModel.Client.AuthorizeResponse ParseAuthorizationResponseUrl(string url)
+        public AuthorizeResponse ParseAuthorizationResponseUrl(string url)
         {
-            return new IdentityModel.Client.AuthorizeResponse(url);
+            return new AuthorizeResponse(url);
         }
 
-        public async Task<IdentityModel.Client.AuthorizeResponse> RequestAuthorizationEndpointAsync(
+        public async Task<AuthorizeResponse> RequestAuthorizationEndpointAsync(
             string clientId,
             string responseType,
             string scope = null,
@@ -280,7 +280,7 @@ namespace IdentityServer4.IntegrationTests.Common
             BrowserClient.AllowAutoRedirect = old;
 
             var redirect = result.Headers.Location.ToString();
-            if (redirect.StartsWith(IdentityServerPipeline.ErrorPage))
+            if (redirect.StartsWith(ErrorPage))
             {
                 // request error page in pipeline so we can get error info
                 await BrowserClient.GetAsync(redirect);
@@ -289,7 +289,7 @@ namespace IdentityServer4.IntegrationTests.Common
                 return null;
             }
 
-            return new IdentityModel.Client.AuthorizeResponse(redirect);
+            return new AuthorizeResponse(redirect);
         }
     }
 }

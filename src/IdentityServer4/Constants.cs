@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
+using System.Collections.Generic;
 using IdentityModel;
 using IdentityServer4.Hosting;
 using IdentityServer4.Models;
-using System;
-using System.Collections.Generic;
 
 namespace IdentityServer4
 {
@@ -80,14 +80,14 @@ namespace IdentityServer4
         {
             { GrantType.AuthorizationCode, new[] { OidcConstants.ResponseModes.Query, OidcConstants.ResponseModes.FormPost } },
             { GrantType.Hybrid, new[] { OidcConstants.ResponseModes.Fragment, OidcConstants.ResponseModes.FormPost }},
-            { GrantType.Implicit, new[] { OidcConstants.ResponseModes.Fragment, OidcConstants.ResponseModes.FormPost }},
+            { GrantType.Implicit, new[] { OidcConstants.ResponseModes.Fragment, OidcConstants.ResponseModes.FormPost }}
         };
 
         public static readonly List<string> SupportedResponseModes = new List<string>
         {
             OidcConstants.ResponseModes.FormPost,
             OidcConstants.ResponseModes.Query,
-            OidcConstants.ResponseModes.Fragment,
+            OidcConstants.ResponseModes.Fragment
         };
 
         public static string[] SupportedSubjectTypes =
@@ -105,7 +105,7 @@ namespace IdentityServer4
             OidcConstants.DisplayModes.Page,
             OidcConstants.DisplayModes.Popup,
             OidcConstants.DisplayModes.Touch,
-            OidcConstants.DisplayModes.Wap,
+            OidcConstants.DisplayModes.Wap
         };
 
         public static readonly List<string> SupportedPromptModes = new List<string>
@@ -113,7 +113,7 @@ namespace IdentityServer4
             OidcConstants.PromptModes.None,
             OidcConstants.PromptModes.Login,
             OidcConstants.PromptModes.Consent,
-            OidcConstants.PromptModes.SelectAccount,
+            OidcConstants.PromptModes.SelectAccount
         };
 
         public static class KnownAcrValues
@@ -129,7 +129,7 @@ namespace IdentityServer4
             { OidcConstants.ProtectedResourceErrors.InvalidToken,      401 },
             { OidcConstants.ProtectedResourceErrors.ExpiredToken,      401 },
             { OidcConstants.ProtectedResourceErrors.InvalidRequest,    400 },
-            { OidcConstants.ProtectedResourceErrors.InsufficientScope, 403 },
+            { OidcConstants.ProtectedResourceErrors.InsufficientScope, 403 }
         };
         
         public static readonly Dictionary<string, IEnumerable<string>> ScopeToClaimsMapping = new Dictionary<string, IEnumerable<string>>
@@ -168,7 +168,7 @@ namespace IdentityServer4
             { StandardScopes.OpenId, new[]
                             {
                                 JwtClaimTypes.Subject
-                            }},
+                            }}
         };
 
         public static class StandardScopes
@@ -248,7 +248,7 @@ namespace IdentityServer4
             { ProtocolRoutePaths.Introspection, EndpointName.Introspection },
             { ProtocolRoutePaths.Revocation, EndpointName.Revocation },
             { ProtocolRoutePaths.Token, EndpointName.Token },
-            { ProtocolRoutePaths.UserInfo, EndpointName.UserInfo },
+            { ProtocolRoutePaths.UserInfo, EndpointName.UserInfo }
         };
 
         public static class EnvironmentKeys
@@ -285,8 +285,7 @@ namespace IdentityServer4
         public class Filters
         {
             // filter for claims from an incoming access token (e.g. used at the user profile endpoint)
-            public static readonly string[] ProtocolClaimsFilter = new string[]
-            {
+            public static readonly string[] ProtocolClaimsFilter = {
                 JwtClaimTypes.AccessTokenHash,
                 JwtClaimTypes.Audience,
                 JwtClaimTypes.AuthorizedParty,
@@ -300,12 +299,11 @@ namespace IdentityServer4
                 JwtClaimTypes.NotBefore,
                 JwtClaimTypes.ReferenceTokenId,
                 JwtClaimTypes.SessionId,
-                JwtClaimTypes.Scope,
+                JwtClaimTypes.Scope
             };
 
             // filter list for claims returned from profile service prior to creating tokens
-            public static readonly string[] ClaimsProviderFilterClaimTypes = new string[]
-            {
+            public static readonly string[] ClaimsProviderFilterClaimTypes = {
                 // TODO: consider JwtClaimTypes.AuthenticationContextClassReference,
                 JwtClaimTypes.AccessTokenHash,
                 JwtClaimTypes.Audience,

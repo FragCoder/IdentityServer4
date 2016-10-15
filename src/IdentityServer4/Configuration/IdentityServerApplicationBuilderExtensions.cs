@@ -2,12 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
 using IdentityServer4.Hosting;
 using IdentityServer4.Stores;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
-using System;
 
-namespace Microsoft.AspNetCore.Builder
+namespace IdentityServer4.Configuration
 {
     public static class IdentityServerApplicationBuilderExtensions
     {

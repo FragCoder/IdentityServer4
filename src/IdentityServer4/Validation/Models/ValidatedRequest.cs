@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Configuration;
 using System.Collections.Specialized;
 using System.Security.Claims;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Models
 {
     /// <summary>
     /// Base class for a validate authorize or token request

@@ -4,7 +4,7 @@
 
 using IdentityServer4.Models;
 
-namespace IdentityServer4.Events
+namespace IdentityServer4.Events.TokenService
 {
     /// <summary>
     /// Details class for access token issued events

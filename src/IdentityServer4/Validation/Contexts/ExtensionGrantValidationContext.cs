@@ -3,8 +3,9 @@
 
 
 using IdentityServer4.Models;
+using IdentityServer4.Validation.Models;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Contexts
 {
     /// <summary>
     /// Class describing the resource owner password validation request

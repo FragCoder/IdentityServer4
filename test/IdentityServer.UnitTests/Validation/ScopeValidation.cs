@@ -2,14 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.Models;
-using IdentityServer4.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xunit;
+using FluentAssertions;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using IdentityServer4.Stores.InMemory;
+using IdentityServer4.UnitTests.Validation.Setup;
+using Xunit;
 
 namespace IdentityServer4.UnitTests.Validation
 {
@@ -46,7 +47,7 @@ namespace IdentityServer4.UnitTests.Validation
                     Name = "disabled",
                     Enabled = false,
                     Type = ScopeType.Resource
-                },
+                }
             };
 
         Client _unrestrictedClient = new Client
@@ -241,10 +242,10 @@ namespace IdentityServer4.UnitTests.Validation
         {
             var validator = Factory.CreateScopeValidator(_store);
             validator.RequestedScopes.AddRange(_allScopes);
-            validator.ValidateRequiredScopes(new string[] { "openid", "email", "resource1", "resource2" }).Should().BeTrue();
-            validator.ValidateRequiredScopes(new string[] { "openid", "email", "resource1" }).Should().BeTrue();
-            validator.ValidateRequiredScopes(new string[] { "openid", "resource1", "resource2" }).Should().BeTrue();
-            validator.ValidateRequiredScopes(new string[] { "openid", "resource1" }).Should().BeTrue();
+            validator.ValidateRequiredScopes(new[] { "openid", "email", "resource1", "resource2" }).Should().BeTrue();
+            validator.ValidateRequiredScopes(new[] { "openid", "email", "resource1" }).Should().BeTrue();
+            validator.ValidateRequiredScopes(new[] { "openid", "resource1", "resource2" }).Should().BeTrue();
+            validator.ValidateRequiredScopes(new[] { "openid", "resource1" }).Should().BeTrue();
         }
 
         [Fact]
@@ -253,9 +254,9 @@ namespace IdentityServer4.UnitTests.Validation
         {
             var validator = Factory.CreateScopeValidator(_store);
             validator.RequestedScopes.AddRange(_allScopes);
-            validator.ValidateRequiredScopes(new string[] { "email", "resource2" }).Should().BeFalse();
-            validator.ValidateRequiredScopes(new string[] { "email", "resource1", "resource2" }).Should().BeFalse();
-            validator.ValidateRequiredScopes(new string[] { "openid", "resource2" }).Should().BeFalse();
+            validator.ValidateRequiredScopes(new[] { "email", "resource2" }).Should().BeFalse();
+            validator.ValidateRequiredScopes(new[] { "email", "resource1", "resource2" }).Should().BeFalse();
+            validator.ValidateRequiredScopes(new[] { "openid", "resource2" }).Should().BeFalse();
         }
     }
 }

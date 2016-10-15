@@ -2,16 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Models;
 using IdentityServer4.Services.InMemory;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 
 namespace IdentityServer4.IntegrationTests.Common
 {

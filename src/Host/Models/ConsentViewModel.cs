@@ -5,8 +5,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using IdentityServer4.Models;
+using IdentityServer4.Models.Messages;
 
-namespace IdentityServer4.Quickstart.UI.Models
+namespace Host.Models
 {
     public class ConsentViewModel : ConsentInputModel
     {
@@ -33,25 +34,5 @@ namespace IdentityServer4.Quickstart.UI.Models
 
         public IEnumerable<ScopeViewModel> IdentityScopes { get; set; }
         public IEnumerable<ScopeViewModel> ResourceScopes { get; set; }
-    }
-
-    public class ScopeViewModel
-    {
-        public ScopeViewModel(Scope scope, bool check)
-        {
-            Name = scope.Name;
-            DisplayName = scope.DisplayName;
-            Description = scope.Description;
-            Emphasize = scope.Emphasize;
-            Required = scope.Required;
-            Checked = check || scope.Required;
-        }
-
-        public string Name { get; set; }
-        public string DisplayName { get; set; }
-        public string Description { get; set; }
-        public bool Emphasize { get; set; }
-        public bool Required { get; set; }
-        public bool Checked { get; set; }
     }
 }

@@ -5,8 +5,9 @@
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
+using IdentityServer4.Validation.Models;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Interfaces
 {
     public interface ITokenRevocationRequestValidator
     {

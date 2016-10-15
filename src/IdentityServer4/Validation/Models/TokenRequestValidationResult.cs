@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Models
 {
     /// <summary>
     /// Validation result for token requests

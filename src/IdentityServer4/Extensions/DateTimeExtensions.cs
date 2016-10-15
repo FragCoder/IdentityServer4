@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using IdentityServer4.Infrastructure;
 
 namespace IdentityServer4.Extensions
 {

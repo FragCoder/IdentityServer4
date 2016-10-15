@@ -2,14 +2,20 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
 using System;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Events.Authentication;
+using IdentityServer4.Events.Base;
+using IdentityServer4.Events.Endpoints;
+using IdentityServer4.Events.Informational;
+using IdentityServer4.Events.TokenService;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
+using IdentityServer4.Models.Messages;
+using IdentityServer4.Services;
 
 namespace IdentityServer4.Events
 {
@@ -351,7 +357,7 @@ namespace IdentityServer4.Events
                 ClientId = code.ClientId,
                 Scopes = code.Scopes,
                 SubjectId = code.Subject.GetSubjectId(),
-                RedirectUri = code.RedirectUri,
+                RedirectUri = code.RedirectUri
                 // TODO:
                 //Lifetime = code.Client.AuthorizationCodeLifetime
             };

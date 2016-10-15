@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Hosting;
-using Xunit;
-using Microsoft.AspNetCore.Http;
-using IdentityServer4.Configuration;
 using IdentityServer4.UnitTests.Common;
+using Microsoft.AspNetCore.Http;
+using Xunit;
 
 namespace IdentityServer4.UnitTests.Hosting
 {

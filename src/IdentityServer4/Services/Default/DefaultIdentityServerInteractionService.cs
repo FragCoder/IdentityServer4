@@ -2,17 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
+using IdentityServer4.Models.Messages;
 using IdentityServer4.Stores;
-using IdentityServer4.Validation;
+using IdentityServer4.Validation.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 
 namespace IdentityServer4.Services.Default
 {

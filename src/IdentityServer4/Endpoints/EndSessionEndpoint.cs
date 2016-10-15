@@ -2,15 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Collections.Specialized;
+using System.Net;
+using System.Threading.Tasks;
 using IdentityServer4.Endpoints.Results;
 using IdentityServer4.Extensions;
 using IdentityServer4.Hosting;
-using Microsoft.Extensions.Logging;
-using System.Net;
-using System.Threading.Tasks;
-using System.Collections.Specialized;
-using IdentityServer4.Validation;
+using IdentityServer4.Validation.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Endpoints
 {

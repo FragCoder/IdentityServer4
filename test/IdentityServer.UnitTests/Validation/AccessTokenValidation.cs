@@ -2,16 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel;
-using IdentityServer4.Configuration;
-using IdentityServer4.Models;
-using IdentityServer4.Stores;
-using IdentityServer4.UnitTests.Common;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Infrastructure;
+using IdentityServer4.Models;
+using IdentityServer4.Stores;
+using IdentityServer4.UnitTests.Common;
+using IdentityServer4.UnitTests.Validation.Setup;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Validation

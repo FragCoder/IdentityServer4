@@ -2,10 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Models;
 using System.Collections.Generic;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
 
-namespace IdentityServer4.IntegrationTests.Endpoints.Introspection
+namespace IdentityServer4.IntegrationTests.Endpoints.Introspection.Setup
 {
     class Scopes
     {
@@ -19,7 +20,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Introspection
                     ScopeSecrets = new List<Secret>
                     {
                         new Secret("secret".Sha256())
-                    },
+                    }
                 },
                 new Scope
                 {

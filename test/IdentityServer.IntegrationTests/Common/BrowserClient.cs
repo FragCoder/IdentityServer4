@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Net;
 using System.Net.Http;
 
 namespace IdentityServer4.IntegrationTests.Common
@@ -42,7 +43,7 @@ namespace IdentityServer4.IntegrationTests.Common
             BrowserHandler.RemoveCookie(uri, name);
         }
 
-        internal System.Net.Cookie GetCookie(string uri, string name)
+        internal Cookie GetCookie(string uri, string name)
         {
             return BrowserHandler.GetCookie(uri, name);
         }

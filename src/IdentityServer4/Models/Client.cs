@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Linq;
 using System;
-using IdentityServer4.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using IdentityModel;
+using IdentityServer4.Extensions;
 
 namespace IdentityServer4.Models
 {
@@ -260,8 +260,6 @@ namespace IdentityServer4.Models
             DisallowGrantTypeCombination(GrantType.Implicit, GrantType.Hybrid, grantTypes);
             
             DisallowGrantTypeCombination(GrantType.AuthorizationCode, GrantType.Hybrid, grantTypes);
-            
-            return;
         }
 
         private void DisallowGrantTypeCombination(string value1, string value2, IEnumerable<string> grantTypes)

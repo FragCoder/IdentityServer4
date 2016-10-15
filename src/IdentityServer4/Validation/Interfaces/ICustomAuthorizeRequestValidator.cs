@@ -3,8 +3,9 @@
 
 
 using System.Threading.Tasks;
+using IdentityServer4.Validation.Models;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Interfaces
 {
     /// <summary>
     /// Allows inserting custom validation logic into authorize and token requests

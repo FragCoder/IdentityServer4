@@ -3,6 +3,8 @@
 
 
 using System.Threading.Tasks;
+using IdentityServer4.Validation.Interfaces;
+using IdentityServer4.Validation.Models;
 
 namespace IdentityServer4.Validation
 {

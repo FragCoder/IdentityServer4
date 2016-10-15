@@ -2,14 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Threading.Tasks;
-using Xunit;
-using FluentAssertions;
 using System.Collections.Generic;
-using IdentityServer4.Models;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using FluentAssertions;
 using IdentityServer4.IntegrationTests.Common;
+using IdentityServer4.Models;
 using IdentityServer4.Services.InMemory;
+using Xunit;
 
 namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 {
@@ -21,7 +21,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
         public SessionIdTests()
         {
-            _mockPipeline.Clients.AddRange(new Client[] {
+            _mockPipeline.Clients.AddRange(new[] {
                 new Client
                 {
                     ClientId = "client1",
@@ -46,15 +46,15 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             {
                 Subject = "bob",
                 Username = "bob",
-                Claims = new Claim[]
+                Claims = new[]
                 {
                     new Claim("name", "Bob Loblaw"),
                     new Claim("email", "bob@loblaw.com"),
-                    new Claim("role", "Attorney"),
+                    new Claim("role", "Attorney")
                 }
             });
 
-            _mockPipeline.Scopes.AddRange(new Scope[] {
+            _mockPipeline.Scopes.AddRange(new[] {
                 StandardScopes.OpenId,
                 StandardScopes.Profile,
                 StandardScopes.Email,

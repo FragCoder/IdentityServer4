@@ -2,14 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using System.Linq;
-using IdentityModel;
+using IdentityServer4.Validation.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Validation
 {
@@ -81,17 +82,14 @@ namespace IdentityServer4.Validation
                             Type = IdentityServerConstants.ParsedSecretTypes.SharedSecret
                         });
                     }
-                    else
-                    {
-                        // client secret is optional
-                        _logger.LogDebug("client id without secret found");
+                    // client secret is optional
+                    _logger.LogDebug("client id without secret found");
 
-                        return Task.FromResult(new ParsedSecret
-                        {
-                            Id = id,
-                            Type = IdentityServerConstants.ParsedSecretTypes.NoSecret
-                        });
-                    }
+                    return Task.FromResult(new ParsedSecret
+                    {
+                        Id = id,
+                        Type = IdentityServerConstants.ParsedSecretTypes.NoSecret
+                    });
                 }
             }
 

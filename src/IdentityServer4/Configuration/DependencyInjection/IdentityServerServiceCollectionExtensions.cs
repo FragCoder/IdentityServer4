@@ -2,11 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Configuration;
-using Microsoft.Extensions.Configuration;
 using System;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace IdentityServer4.Configuration.DependencyInjection
 {
     public static class IdentityServerServiceCollectionExtensions
     {

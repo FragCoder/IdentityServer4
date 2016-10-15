@@ -2,12 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Validation;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using IdentityModel;
+using IdentityServer4.Extensions;
+using IdentityServer4.Validation.Models;
 
-namespace IdentityServer4.Models
+namespace IdentityServer4.Models.Messages
 {
     /// <summary>
     /// Represents contextual information about a authorization request.
@@ -90,7 +92,7 @@ namespace IdentityServer4.Models
         /// </value>
         public NameValueCollection Parameters { get; }
 
-        internal string Nonce => Parameters[IdentityModel.OidcConstants.AuthorizeRequest.Nonce];
+        internal string Nonce => Parameters[OidcConstants.AuthorizeRequest.Nonce];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorizationRequest"/> class.

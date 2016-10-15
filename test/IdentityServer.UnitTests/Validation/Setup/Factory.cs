@@ -2,18 +2,20 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Configuration;
+using System.Collections.Generic;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Services;
 using IdentityServer4.Services.Default;
-using IdentityServer4.Validation;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using IdentityServer4.Stores;
-using IdentityServer4.UnitTests.Common;
-using IdentityServer4.Stores.Serialization;
+using IdentityServer4.Stores.Default;
 using IdentityServer4.Stores.InMemory;
+using IdentityServer4.Stores.Serialization;
+using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation;
+using IdentityServer4.Validation.Interfaces;
+using Microsoft.Extensions.Logging;
 
-namespace IdentityServer4.UnitTests.Validation
+namespace IdentityServer4.UnitTests.Validation.Setup
 {
     static class Factory
     {

@@ -2,17 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using FluentAssertions;
-using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Stores.InMemory;
 using IdentityServer4.UnitTests.Common;
 using IdentityServer4.Validation;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using IdentityServer4.Validation.Models;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Validation.EndSessionRequestValidation
@@ -67,11 +68,11 @@ namespace IdentityServer4.UnitTests.Validation.EndSessionRequestValidation
         [Fact]
         public async Task valid_params_should_return_success()
         {
-            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult()
+            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult
             {
                 IsError = false,
-                Claims = new Claim[] { new Claim("sub", _user.GetSubjectId()) },
-                Client = new Client() { ClientId = "client"}
+                Claims = new[] { new Claim("sub", _user.GetSubjectId()) },
+                Client = new Client { ClientId = "client"}
             };
             _stubRedirectUriValidator.IsPostLogoutRedirectUriValid = true;
 
@@ -93,11 +94,11 @@ namespace IdentityServer4.UnitTests.Validation.EndSessionRequestValidation
         [Fact]
         public async Task no_post_logout_redirect_uri_should_use_single_registered_uri()
         {
-            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult()
+            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult
             {
                 IsError = false,
-                Claims = new Claim[] { new Claim("sub", _user.GetSubjectId()) },
-                Client = new Client() { ClientId = "client1", PostLogoutRedirectUris = new List<string> { "foo" } }
+                Claims = new[] { new Claim("sub", _user.GetSubjectId()) },
+                Client = new Client { ClientId = "client1", PostLogoutRedirectUris = new List<string> { "foo" } }
             };
             _stubRedirectUriValidator.IsPostLogoutRedirectUriValid = true;
 
@@ -112,11 +113,11 @@ namespace IdentityServer4.UnitTests.Validation.EndSessionRequestValidation
         [Fact]
         public async Task no_post_logout_redirect_uri_should_not_use_multiple_registered_uri()
         {
-            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult()
+            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult
             {
                 IsError = false,
-                Claims = new Claim[] { new Claim("sub", _user.GetSubjectId()) },
-                Client = new Client() { ClientId = "client1", PostLogoutRedirectUris = new List<string> { "foo", "bar" } }
+                Claims = new[] { new Claim("sub", _user.GetSubjectId()) },
+                Client = new Client { ClientId = "client1", PostLogoutRedirectUris = new List<string> { "foo", "bar" } }
             };
             _stubRedirectUriValidator.IsPostLogoutRedirectUriValid = true;
 
@@ -131,11 +132,11 @@ namespace IdentityServer4.UnitTests.Validation.EndSessionRequestValidation
         [Fact]
         public async Task post_logout_uri_fails_validation_should_return_error()
         {
-            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult()
+            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult
             {
                 IsError = false,
-                Claims = new Claim[] { new Claim("sub", _user.GetSubjectId()) },
-                Client = new Client() { ClientId = "client" }
+                Claims = new[] { new Claim("sub", _user.GetSubjectId()) },
+                Client = new Client { ClientId = "client" }
             };
             _stubRedirectUriValidator.IsPostLogoutRedirectUriValid = false;
 
@@ -152,11 +153,11 @@ namespace IdentityServer4.UnitTests.Validation.EndSessionRequestValidation
         [Fact]
         public async Task subject_mismatch_should_return_error()
         {
-            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult()
+            _stubTokenValidator.IdentityTokenValidationResult = new TokenValidationResult
             {
                 IsError = false,
-                Claims = new Claim[] { new Claim("sub", "xoxo") },
-                Client = new Client() { ClientId = "client" }
+                Claims = new[] { new Claim("sub", "xoxo") },
+                Client = new Client { ClientId = "client" }
             };
             _stubRedirectUriValidator.IsPostLogoutRedirectUriValid = true;
 

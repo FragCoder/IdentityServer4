@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
-namespace IdentityServer4.Configuration
+namespace IdentityServer4.Configuration.DependencyInjection.Options
 {
     /// <summary>
     /// Configures the login and logout views and behavior.

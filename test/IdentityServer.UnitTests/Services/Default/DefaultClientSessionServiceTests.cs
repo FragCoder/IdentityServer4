@@ -2,14 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.Services.Default;
-using IdentityServer4.UnitTests.Common;
 using System;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityServer4.Services.Default;
+using IdentityServer4.UnitTests.Common;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Services.Default
@@ -56,7 +56,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         {
             await _subject.AddClientIdAsync("client");
             var clients = await _subject.GetClientListAsync();
-            clients.Should().Contain(new string[] { "client" });
+            clients.Should().Contain(new[] { "client" });
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace IdentityServer4.UnitTests.Services.Default
             await _subject.AddClientIdAsync("client1");
             await _subject.AddClientIdAsync("client2");
             var clients = await _subject.GetClientListAsync();
-            clients.Should().Contain(new string[] { "client2", "client1" });
+            clients.Should().Contain(new[] { "client2", "client1" });
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace IdentityServer4.UnitTests.Services.Default
             _mockHttpContext.HttpContext.Request.Headers.Add("Cookie", cookie);
 
             var clients = _subject.GetClientListFromCookie();
-            clients.Should().Contain(new string[] { "client2", "client1" });
+            clients.Should().Contain(new[] { "client2", "client1" });
         }
 
         [Fact]

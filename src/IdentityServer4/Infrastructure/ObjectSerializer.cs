@@ -5,7 +5,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace IdentityServer4
+namespace IdentityServer4.Infrastructure
 {
     internal static class ObjectSerializer
     {

@@ -2,13 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Security.Claims;
+using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
+using IdentityServer4.Infrastructure;
 using IdentityServer4.Models;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace IdentityServer4.Services.Default
 {
@@ -74,7 +75,7 @@ namespace IdentityServer4.Services.Default
             {
                 CreationTime = DateTimeHelper.UtcNow,
                 Lifetime = lifetime,
-                AccessToken = accessToken,
+                AccessToken = accessToken
             };
 
             await _grants.StoreRefreshTokenAsync(handle, refreshToken);
@@ -117,15 +118,15 @@ namespace IdentityServer4.Services.Default
                 // make sure we don't exceed absolute exp
                 // cap it at absolute exp
                 var currentLifetime = refreshToken.CreationTime.GetLifetimeInSeconds();
-                _logger.LogDebug("Current lifetime: " + currentLifetime.ToString());
+                _logger.LogDebug("Current lifetime: " + currentLifetime);
 
                 var newLifetime = currentLifetime + client.SlidingRefreshTokenLifetime;
-                _logger.LogDebug("New lifetime: " + newLifetime.ToString());
+                _logger.LogDebug("New lifetime: " + newLifetime);
 
                 if (newLifetime > client.AbsoluteRefreshTokenLifetime)
                 {
                     newLifetime = client.AbsoluteRefreshTokenLifetime;
-                    _logger.LogDebug("New lifetime exceeds absolute lifetime, capping it to " + newLifetime.ToString());
+                    _logger.LogDebug("New lifetime exceeds absolute lifetime, capping it to " + newLifetime);
                 }
 
                 refreshToken.Lifetime = newLifetime;

@@ -2,10 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Validation;
 using System.Threading.Tasks;
+using IdentityServer4.Models;
+using IdentityServer4.Validation.Contexts;
+using IdentityServer4.Validation.Interfaces;
+using IdentityServer4.Validation.Models;
 
-namespace IdentityServer4.IntegrationTests.Clients
+namespace IdentityServer4.IntegrationTests.Clients.Setup
 {
     public class ExtensionGrantValidator : IExtensionGrantValidator
     {
@@ -21,7 +24,7 @@ namespace IdentityServer4.IntegrationTests.Clients
             else
             {
                 // custom error message
-                context.Result = new GrantValidationResult(Models.TokenRequestErrors.InvalidGrant, "invalid_custom_credential");
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_custom_credential");
             }
 
             return Task.FromResult(0);

@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Models
 {
     public class IntrospectionRequestValidationResult : ValidationResult
     {
@@ -13,13 +13,5 @@ namespace IdentityServer4.Validation
         public IntrospectionRequestValidationFailureReason FailureReason { get; set; }
         public IEnumerable<Claim> Claims { get; set; }
         public string Token { get; set; }
-    }
-
-    public enum IntrospectionRequestValidationFailureReason
-    {
-        None,
-        MissingToken,
-        InvalidToken,
-        InvalidScope
     }
 }

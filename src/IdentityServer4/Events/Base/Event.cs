@@ -2,10 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Extensions;
 using System;
+using IdentityServer4.Extensions;
+using Newtonsoft.Json;
 
-namespace IdentityServer4.Events
+namespace IdentityServer4.Events.Base
 {
     /// <summary>
     /// Models base class for events raised from IdentityServer.
@@ -69,7 +70,7 @@ namespace IdentityServer4.Events
         /// <value>
         /// The details function.
         /// </value>
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public Func<T> DetailsFunc { get; set; }
 
         /// <summary>

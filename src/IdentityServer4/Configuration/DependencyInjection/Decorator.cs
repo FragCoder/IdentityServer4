@@ -2,8 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System;
-
 namespace IdentityServer4.Configuration.DependencyInjection
 {
     internal class Decorator<TService>
@@ -21,18 +19,6 @@ namespace IdentityServer4.Configuration.DependencyInjection
     {
         public Decorator(TImpl instance) : base(instance)
         {
-        }
-    }
-
-    internal class DisposableDecorator<TService> : Decorator<TService>, IDisposable
-    {
-        public DisposableDecorator(TService instance) : base(instance)
-        {
-        }
-
-        public void Dispose()
-        {
-            (Instance as IDisposable)?.Dispose();
         }
     }
 }

@@ -2,14 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel;
-using IdentityServer4.Models;
-using IdentityServer4.UnitTests.Common;
-using IdentityServer4.Validation;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
+using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation;
+using IdentityServer4.Validation.Interfaces;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Validation
@@ -41,7 +43,7 @@ namespace IdentityServer4.UnitTests.Validation
 
                 RedirectUris = new List<string>
                 {
-                    "https://server/cb",
+                    "https://server/cb"
                 },
 
                 AuthorizationCodeLifetime = 60
@@ -115,7 +117,7 @@ namespace IdentityServer4.UnitTests.Validation
         {
             var parameters = new NameValueCollection
             {
-                { "token", "foo" },
+                { "token", "foo" }
             };
 
             var result = await _validator.ValidateRequestAsync(parameters, _client);

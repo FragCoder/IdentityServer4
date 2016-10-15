@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Models;
-using IdentityServer4.Stores;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using IdentityServer4.Models.Messages;
+using IdentityServer4.Stores;
 
 namespace IdentityServer4.UnitTests.Common
 {

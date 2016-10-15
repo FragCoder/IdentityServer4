@@ -2,29 +2,28 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel;
-using IdentityServer4.Configuration;
-using IdentityServer4.Models;
-using IdentityServer4.ResponseHandling;
-using IdentityServer4.UnitTests.Common;
-using IdentityServer4.Validation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Models;
+using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation.Models;
 using Xunit;
 
-namespace IdentityServer4.UnitTests.ResponseHandling
+namespace IdentityServer4.UnitTests.ResponseHandling.AuthorizeInteractionResponseGenerator
 {
     public class AuthorizeInteractionResponseGeneratorTests_Login
     {
         IdentityServerOptions _options = new IdentityServerOptions();
-        AuthorizeInteractionResponseGenerator _subject;
+        IdentityServer4.ResponseHandling.AuthorizeInteractionResponseGenerator _subject;
         MockConsentService _mockConsentService = new MockConsentService();
 
         public AuthorizeInteractionResponseGeneratorTests_Login()
         {
-            _subject = new AuthorizeInteractionResponseGenerator(
-                TestLogger.Create<AuthorizeInteractionResponseGenerator>(),
+            _subject = new IdentityServer4.ResponseHandling.AuthorizeInteractionResponseGenerator(
+                TestLogger.Create<IdentityServer4.ResponseHandling.AuthorizeInteractionResponseGenerator>(),
                 _options,
                 _mockConsentService,
                 new TestProfileService());
@@ -143,9 +142,9 @@ namespace IdentityServer4.UnitTests.ResponseHandling
             var request = new ValidatedAuthorizeRequest
             {
                 ClientId = "foo",
-                Client = new Client()
+                Client = new Client
                 {
-                    EnableLocalLogin = false,
+                    EnableLocalLogin = false
                 },
                 Subject = IdentityServerPrincipal.Create("123", "dom")
             };

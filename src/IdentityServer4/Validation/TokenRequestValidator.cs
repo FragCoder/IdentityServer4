@@ -2,20 +2,24 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Configuration;
-using IdentityServer4.Events;
-using IdentityServer4.Extensions;
-using IdentityServer4.Logging;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Events;
+using IdentityServer4.Extensions;
+using IdentityServer4.Logging.Models;
+using IdentityServer4.Models;
+using IdentityServer4.Models.Contexts;
+using IdentityServer4.Services;
+using IdentityServer4.Validation.Contexts;
+using IdentityServer4.Validation.Interfaces;
+using IdentityServer4.Validation.Models;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Validation
 {
@@ -583,11 +587,8 @@ namespace IdentityServer4.Validation
                     LogError("Invalid extension grant: {error}", result.Error);
                     return Invalid(result.Error, result.ErrorDescription, result.CustomResponse);
                 }
-                else
-                {
-                    LogError("Invalid extension grant");
-                    return Invalid(OidcConstants.TokenErrors.InvalidGrant, customResponse: result.CustomResponse);
-                }
+                LogError("Invalid extension grant");
+                return Invalid(OidcConstants.TokenErrors.InvalidGrant, customResponse: result.CustomResponse);
             }
 
             if (result.Subject != null)

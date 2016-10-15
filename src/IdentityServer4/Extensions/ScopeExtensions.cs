@@ -5,8 +5,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using IdentityServer4.Models;
 
-namespace IdentityServer4.Models
+namespace IdentityServer4.Extensions
 {
     internal static class ScopeExtensions
     {

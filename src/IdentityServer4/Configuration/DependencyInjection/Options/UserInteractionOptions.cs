@@ -4,7 +4,7 @@
 
 using IdentityServer4.Extensions;
 
-namespace IdentityServer4.Configuration
+namespace IdentityServer4.Configuration.DependencyInjection.Options
 {
     /// <summary>
     /// Options for aspects of the user interface.

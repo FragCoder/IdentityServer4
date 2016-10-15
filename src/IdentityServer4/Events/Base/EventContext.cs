@@ -4,7 +4,7 @@
 
 using System;
 
-namespace IdentityServer4.Events
+namespace IdentityServer4.Events.Base
 {
     /// <summary>
     /// Contextual information included with every event.

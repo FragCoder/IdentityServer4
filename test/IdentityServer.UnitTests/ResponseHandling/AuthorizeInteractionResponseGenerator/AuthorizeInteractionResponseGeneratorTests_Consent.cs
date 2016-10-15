@@ -2,27 +2,28 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel;
-using IdentityServer4.Configuration;
-using IdentityServer4.Models;
-using IdentityServer4.ResponseHandling;
-using IdentityServer4.Stores.InMemory;
-using IdentityServer4.UnitTests.Common;
-using IdentityServer4.Validation;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Models;
+using IdentityServer4.Models.Messages;
+using IdentityServer4.Stores.InMemory;
+using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation;
+using IdentityServer4.Validation.Models;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace IdentityServer4.UnitTests.ResponseHandling
+namespace IdentityServer4.UnitTests.ResponseHandling.AuthorizeInteractionResponseGenerator
 {
     public class AuthorizeInteractionResponseGeneratorTests_Consent
     {
-        AuthorizeInteractionResponseGenerator _subject;
+        IdentityServer4.ResponseHandling.AuthorizeInteractionResponseGenerator _subject;
         IdentityServerOptions _options = new IdentityServerOptions();
         MockConsentService _mockConsent = new MockConsentService();
         TestProfileService _fakeUserService = new TestProfileService();
@@ -48,7 +49,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
 
         private static IEnumerable<Scope> GetScopes()
         {
-            return new Scope[]
+            return new[]
             {
                 StandardScopes.OpenId,
                 StandardScopes.Profile,
@@ -59,14 +60,14 @@ namespace IdentityServer4.UnitTests.ResponseHandling
                     Name = "read",
                     DisplayName = "Read data",
                     Type = ScopeType.Resource,
-                    Emphasize = false,
+                    Emphasize = false
                 },
                 new Scope
                 {
                     Name = "write",
                     DisplayName = "Write data",
                     Type = ScopeType.Resource,
-                    Emphasize = true,
+                    Emphasize = true
                 },
                 new Scope
                 {
@@ -80,8 +81,8 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         
         public AuthorizeInteractionResponseGeneratorTests_Consent()
         {
-            _subject = new AuthorizeInteractionResponseGenerator(
-                TestLogger.Create<AuthorizeInteractionResponseGenerator>(),
+            _subject = new IdentityServer4.ResponseHandling.AuthorizeInteractionResponseGenerator(
+                TestLogger.Create<IdentityServer4.ResponseHandling.AuthorizeInteractionResponseGenerator>(),
                 _options,
                 _mockConsent,
                 _fakeUserService);
@@ -99,7 +100,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         [Fact]
         public void ProcessConsentAsync_AllowsNullConsent()
         {
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -113,7 +114,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         public void ProcessConsentAsync_PromptModeIsLogin_Throws()
         {
             RequiresConsent(true);
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -131,7 +132,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         public void ProcessConsentAsync_PromptModeIsSelectAccount_Throws()
         {
             RequiresConsent(true);
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -150,7 +151,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         public void ProcessConsentAsync_RequiresConsentButPromptModeIsNone_ReturnsErrorResult()
         {
             RequiresConsent(true);
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -168,7 +169,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         [Fact]
         public void ProcessConsentAsync_PromptModeIsConsent_NoPriorConsent_ReturnsConsentResult()
         {
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -185,7 +186,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         public void ProcessConsentAsync_NoPromptMode_ConsentServiceRequiresConsent_NoPriorConsent_ReturnsConsentResult()
         {
             RequiresConsent(true);
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -201,7 +202,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         [Fact]
         public void ProcessConsentAsync_PromptModeIsConsent_ConsentNotGranted_ReturnsErrorResult()
         {
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -225,11 +226,11 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         public void ProcessConsentAsync_NoPromptMode_ConsentServiceRequiresConsent_ConsentNotGranted_ReturnsErrorResult()
         {
             RequiresConsent(true);
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
-                RedirectUri = "https://client.com/callback",
+                RedirectUri = "https://client.com/callback"
             };
             var consent = new ConsentResponse
             {
@@ -247,9 +248,9 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         public void ProcessConsentAsync_NoPromptMode_ConsentServiceRequiresConsent_ConsentGrantedButMissingRequiredScopes_ReturnsErrorResult()
         {
             RequiresConsent(true);
-            var client = new Client {};
+            var client = new Client();
             var scopeValidator = new ScopeValidator(new InMemoryScopeStore(GetScopes()), TestLogger.Create<ScopeValidator>());
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -263,7 +264,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
             var consent = new ConsentResponse
             {
                 RememberConsent = false,
-                ScopesConsented = new string[] { "read" }
+                ScopesConsented = new[] { "read" }
             };
 
             var result = _subject.ProcessConsentAsync(request, consent).Result;
@@ -276,7 +277,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         public async Task ProcessConsentAsync_NoPromptMode_ConsentServiceRequiresConsent_ConsentGranted_ScopesSelected_ReturnsConsentResult()
         {
             RequiresConsent(true);
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -286,11 +287,11 @@ namespace IdentityServer4.UnitTests.ResponseHandling
                     AllowRememberConsent = false
                 }
             };
-            await request.ValidatedScopes.AreScopesValidAsync(new string[] { "read", "write" });
+            await request.ValidatedScopes.AreScopesValidAsync(new[] { "read", "write" });
             var consent = new ConsentResponse
             {
                 RememberConsent = false,
-                ScopesConsented = new string[] { "read" }
+                ScopesConsented = new[] { "read" }
             };
             var result = _subject.ProcessConsentAsync(request, consent).Result;
             request.ValidatedScopes.GrantedScopes.Count.Should().Be(1);
@@ -304,7 +305,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
         public async Task ProcessConsentAsync_PromptModeConsent_ConsentGranted_ScopesSelected_ReturnsConsentResult()
         {
             RequiresConsent(true);
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -314,11 +315,11 @@ namespace IdentityServer4.UnitTests.ResponseHandling
                     AllowRememberConsent = false
                 }
             };
-            await request.ValidatedScopes.AreScopesValidAsync(new string[] { "read", "write" });
+            await request.ValidatedScopes.AreScopesValidAsync(new[] { "read", "write" });
             var consent = new ConsentResponse
             {
                 RememberConsent = false,
-                ScopesConsented = new string[] { "read" }
+                ScopesConsented = new[] { "read" }
             };
             var result = _subject.ProcessConsentAsync(request, consent).Result;
             request.ValidatedScopes.GrantedScopes.Count.Should().Be(1);
@@ -334,7 +335,7 @@ namespace IdentityServer4.UnitTests.ResponseHandling
             RequiresConsent(true);
             var client = new Client { AllowRememberConsent = true };
             var user = new ClaimsPrincipal();
-            var request = new ValidatedAuthorizeRequest()
+            var request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Fragment,
                 State = "12345",
@@ -343,11 +344,11 @@ namespace IdentityServer4.UnitTests.ResponseHandling
                 Client = client,
                 Subject = user
             };
-            await request.ValidatedScopes.AreScopesValidAsync(new string[] { "read", "write" });
+            await request.ValidatedScopes.AreScopesValidAsync(new[] { "read", "write" });
             var consent = new ConsentResponse
             {
                 RememberConsent = true,
-                ScopesConsented = new string[] { "read" }
+                ScopesConsented = new[] { "read" }
             };
             var result = _subject.ProcessConsentAsync(request, consent).Result;
             AssertUpdateConsentCalled(client, user, "read");

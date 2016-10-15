@@ -2,18 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
+using System.Linq;
 using Host.Configuration;
+using IdentityServer4;
+using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using Serilog.Events;
 using Microsoft.IdentityModel.Tokens;
-using System.Linq;
-using IdentityServer4;
-using IdentityServer4.Validation;
 using Serilog;
+using Serilog.Events;
+using ExtensionGrantValidator = Host.Extensions.ExtensionGrantValidator;
 
 namespace Host
 {
@@ -55,7 +58,7 @@ namespace Host
             .AddInMemoryScopes(Scopes.Get())
             .AddInMemoryUsers(Users.Get());
             
-            builder.AddExtensionGrantValidator<Extensions.ExtensionGrantValidator>();
+            builder.AddExtensionGrantValidator<ExtensionGrantValidator>();
 
             builder.AddSecretParser<ClientAssertionSecretParser>();
             builder.AddSecretValidator<PrivateKeyJwtSecretValidator>();
@@ -66,7 +69,7 @@ namespace Host
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             // serilog filter
-            Func<LogEvent, bool> serilogFilter = (e) =>
+            Func<LogEvent, bool> serilogFilter = e =>
             {
                 var context = e.Properties["SourceContext"].ToString();
 
@@ -112,7 +115,7 @@ namespace Host
                 AuthenticationScheme = "Google",
                 SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
                 ClientId = "998042782978-s07498t8i8jas7npj4crve1skpromf37.apps.googleusercontent.com",
-                ClientSecret = "HsnwJri_53zn7VcO1Fm7THBb",
+                ClientSecret = "HsnwJri_53zn7VcO1Fm7THBb"
             });
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions

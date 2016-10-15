@@ -2,11 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features.Authentication;
+using IdentityModel;
 using IdentityServer4.Extensions;
+using IdentityServer4.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features.Authentication;
 
 namespace IdentityServer4.Services.Default
 {
@@ -43,14 +44,6 @@ namespace IdentityServer4.Services.Default
             if (sid != null)
             {
                 IssueSessionIdCookie(sid);
-            }
-            else
-            {
-                // we don't want to delete the session id cookie if the user is
-                // no longer authenticated since we might be waiting for the 
-                // signout iframe to render -- it's a timing issue between the 
-                // logout page removing the authentication cookie and the 
-                // signout iframe callback from performing SLO
             }
         }
 

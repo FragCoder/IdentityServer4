@@ -3,7 +3,8 @@
 
 
 using System.Threading.Tasks;
-using IdentityServer4.Models;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models.Contexts;
 
 namespace IdentityServer4.Services.Default
 {

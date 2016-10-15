@@ -2,15 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.Configuration;
-using IdentityServer4.Validation;
 using System;
 using System.Text;
-using Xunit;
-using Microsoft.Extensions.Primitives;
-using Microsoft.AspNetCore.Http;
+using FluentAssertions;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using Xunit;
 
 namespace IdentityServer4.UnitTests.Validation.Secrets
 {

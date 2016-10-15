@@ -2,13 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.UnitTests.Common;
-using IdentityServer4.Validation;
-using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation;
+using IdentityServer4.Validation.Models;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Validation
@@ -49,7 +50,7 @@ namespace IdentityServer4.UnitTests.Validation
         {
             var ctx = new DefaultHttpContext();
             ctx.Request.Method = "GET";
-            ctx.Request.Headers.Add("Authorization", new string[] { "Foo Bar" });
+            ctx.Request.Headers.Add("Authorization", new[] { "Foo Bar" });
 
             var validator = new BearerTokenUsageValidator(TestLogger.Create<BearerTokenUsageValidator>());
             var result = await validator.ValidateAsync(ctx);
@@ -63,7 +64,7 @@ namespace IdentityServer4.UnitTests.Validation
         {
             var ctx = new DefaultHttpContext();
             ctx.Request.Method = "GET";
-            ctx.Request.Headers.Add("Authorization", new string[] { "Bearer" });
+            ctx.Request.Headers.Add("Authorization", new[] { "Bearer" });
 
             var validator = new BearerTokenUsageValidator(TestLogger.Create<BearerTokenUsageValidator>());
             var result = await validator.ValidateAsync(ctx);
@@ -77,7 +78,7 @@ namespace IdentityServer4.UnitTests.Validation
         {
             var ctx = new DefaultHttpContext();
             ctx.Request.Method = "GET";
-            ctx.Request.Headers.Add("Authorization", new string[] { "Bearer           " });
+            ctx.Request.Headers.Add("Authorization", new[] { "Bearer           " });
 
             var validator = new BearerTokenUsageValidator(TestLogger.Create<BearerTokenUsageValidator>());
             var result = await validator.ValidateAsync(ctx);
@@ -91,7 +92,7 @@ namespace IdentityServer4.UnitTests.Validation
         {
             var ctx = new DefaultHttpContext();
             ctx.Request.Method = "GET";
-            ctx.Request.Headers.Add("Authorization", new string[] { "Bearer token" });
+            ctx.Request.Headers.Add("Authorization", new[] { "Bearer token" });
 
             var validator = new BearerTokenUsageValidator(TestLogger.Create<BearerTokenUsageValidator>());
             var result = await validator.ValidateAsync(ctx);

@@ -2,37 +2,40 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4;
-using IdentityServer4.Configuration;
-using IdentityServer4.Configuration.DependencyInjection;
-using IdentityServer4.Endpoints;
-using IdentityServer4.Events;
-using IdentityServer4.Hosting;
-using IdentityServer4.Models;
-using IdentityServer4.ResponseHandling;
-using IdentityServer4.Services;
-using IdentityServer4.Services.Default;
-using IdentityServer4.Services.InMemory;
-using IdentityServer4.Stores;
-using IdentityServer4.Stores.InMemory;
-using IdentityServer4.Stores.Serialization;
-using IdentityServer4.Validation;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using CryptoRandom = IdentityModel.CryptoRandom;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Endpoints;
+using IdentityServer4.Events;
+using IdentityServer4.Hosting;
+using IdentityServer4.Infrastructure;
+using IdentityServer4.Models;
+using IdentityServer4.ResponseHandling;
+using IdentityServer4.ResponseHandling.Interfaces;
+using IdentityServer4.Services;
+using IdentityServer4.Services.Default;
+using IdentityServer4.Services.InMemory;
+using IdentityServer4.Stores;
+using IdentityServer4.Stores.Caching;
+using IdentityServer4.Stores.Default;
+using IdentityServer4.Stores.InMemory;
+using IdentityServer4.Stores.Serialization;
+using IdentityServer4.Validation;
+using IdentityServer4.Validation.Interfaces;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace IdentityServer4.Configuration.DependencyInjection
 {
     public static class IdentityServerBuilderExtensions
     {

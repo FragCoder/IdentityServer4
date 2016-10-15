@@ -2,17 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.UnitTests.Common;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xunit;
-using IdentityServer4.Configuration;
+using FluentAssertions;
 using IdentityServer4.Configuration.DependencyInjection;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Infrastructure;
+using IdentityServer4.UnitTests.Common;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Xunit;
 
-namespace IdentityServer4.UnitTests.Hosting.Cors
+namespace IdentityServer4.UnitTests.Cors
 {
     public class PolicyProviderTests
     {
@@ -54,11 +55,11 @@ namespace IdentityServer4.UnitTests.Hosting.Cors
         [Trait("Category", Category)]
         public async Task valid_paths_should_call_policy_service(string path)
         {
-            _allowedPaths.AddRange(new string[] {
+            _allowedPaths.AddRange(new[] {
                 "/foo",
                 "/bar/",
                 "/baz/quux",
-                "/baz/quux/",
+                "/baz/quux/"
             });
             Init();
 
@@ -83,7 +84,7 @@ namespace IdentityServer4.UnitTests.Hosting.Cors
         [Trait("Category", Category)]
         public async Task invalid_paths_should_not_call_policy_service(string path)
         {
-            _allowedPaths.AddRange(new string[] {
+            _allowedPaths.AddRange(new[] {
                 "/foo",
                 "/bar",
                 "/baz/quux"
@@ -106,7 +107,7 @@ namespace IdentityServer4.UnitTests.Hosting.Cors
         [Trait("Category", Category)]
         public async Task different_policy_name_should_call_inner_policy_service()
         {
-            _allowedPaths.AddRange(new string[] {
+            _allowedPaths.AddRange(new[] {
                 "/foo",
                 "/bar",
                 "/baz/quux"
@@ -129,8 +130,8 @@ namespace IdentityServer4.UnitTests.Hosting.Cors
         [Trait("Category", Category)]
         public async Task origin_same_as_server_should_not_call_policy()
         {
-            _allowedPaths.AddRange(new string[] {
-                "/foo",
+            _allowedPaths.AddRange(new[] {
+                "/foo"
             });
             Init();
 
@@ -152,8 +153,8 @@ namespace IdentityServer4.UnitTests.Hosting.Cors
         [Trait("Category", Category)]
         public async Task origin_not_same_as_server_should_call_policy(string origin)
         {
-            _allowedPaths.AddRange(new string[] {
-                "/foo",
+            _allowedPaths.AddRange(new[] {
+                "/foo"
             });
             Init();
 

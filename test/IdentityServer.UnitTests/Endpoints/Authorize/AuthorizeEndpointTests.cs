@@ -2,20 +2,22 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.Endpoints;
-using System.Threading.Tasks;
-using Xunit;
 using System.Collections.Specialized;
 using System.Security.Claims;
-using IdentityServer4.Validation;
-using Microsoft.Extensions.Logging;
-using IdentityServer4.Events;
-using IdentityServer4.Models;
+using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityServer4.Endpoints;
 using IdentityServer4.Endpoints.Results;
-using Microsoft.AspNetCore.Http;
+using IdentityServer4.Events.Base;
+using IdentityServer4.Events.Endpoints;
 using IdentityServer4.Extensions;
+using IdentityServer4.Models;
+using IdentityServer4.Models.Messages;
 using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Xunit;
 
 namespace IdentityServer4.UnitTests.Endpoints.Authorize
 {
@@ -47,7 +49,7 @@ namespace IdentityServer4.UnitTests.Endpoints.Authorize
         {
             _context = new MockHttpContextAccessor().HttpContext;
 
-            _validatedAuthorizeRequest = new ValidatedAuthorizeRequest()
+            _validatedAuthorizeRequest = new ValidatedAuthorizeRequest
             {
                 RedirectUri = "http://client/callback",
                 State = "123",
@@ -131,7 +133,7 @@ namespace IdentityServer4.UnitTests.Endpoints.Authorize
         [Trait("Category", Category)]
         public async Task ProcessAsync_authorize_after_consent_path_should_return_authorization_result()
         {
-            var parameters = new NameValueCollection()
+            var parameters = new NameValueCollection
             {
                 { "client_id", "client" },
                 { "nonce", "some_nonce" },
@@ -270,7 +272,7 @@ namespace IdentityServer4.UnitTests.Endpoints.Authorize
         [Trait("Category", Category)]
         public async Task ProcessAuthorizeWithConsentAsync_no_consent_message_should_return_error_page()
         {
-            var parameters = new NameValueCollection()
+            var parameters = new NameValueCollection
             {
                 { "client_id", "client" },
                 { "nonce", "some_nonce" },
@@ -295,7 +297,7 @@ namespace IdentityServer4.UnitTests.Endpoints.Authorize
         [Trait("Category", Category)]
         public async Task ProcessAuthorizeWithConsentAsync_consent_missing_consent_data_should_return_error_page()
         {
-            var parameters = new NameValueCollection()
+            var parameters = new NameValueCollection
             {
                 { "client_id", "client" },
                 { "nonce", "some_nonce" },
@@ -320,14 +322,14 @@ namespace IdentityServer4.UnitTests.Endpoints.Authorize
         [Trait("Category", Category)]
         public async Task ProcessAuthorizeWithConsentAsync_valid_consent_message_should_return_authorize_result()
         {
-            var parameters = new NameValueCollection()
+            var parameters = new NameValueCollection
             {
                 { "client_id", "client" },
                 { "nonce", "some_nonce" },
                 { "scope", "api1 api2" }
             };
             var request = new ConsentRequest(parameters, _user.GetSubjectId());
-            _mockUserConsentResponseMessageStore.Messages.Add(request.Id, new Message<ConsentResponse>(new ConsentResponse() {ScopesConsented = new string[] { "api1", "api2" } }));
+            _mockUserConsentResponseMessageStore.Messages.Add(request.Id, new Message<ConsentResponse>(new ConsentResponse {ScopesConsented = new[] { "api1", "api2" } }));
 
             _context.SetUser(_user);
 
@@ -344,14 +346,14 @@ namespace IdentityServer4.UnitTests.Endpoints.Authorize
         [Trait("Category", Category)]
         public async Task ProcessAuthorizeWithConsentAsync_valid_consent_message_should_cleanup_consent_cookie()
         {
-            var parameters = new NameValueCollection()
+            var parameters = new NameValueCollection
             {
                 { "client_id", "client" },
                 { "nonce", "some_nonce" },
                 { "scope", "api1 api2" }
             };
             var request = new ConsentRequest(parameters, _user.GetSubjectId());
-            _mockUserConsentResponseMessageStore.Messages.Add(request.Id, new Message<ConsentResponse>(new ConsentResponse() { ScopesConsented = new string[] { "api1", "api2" } }));
+            _mockUserConsentResponseMessageStore.Messages.Add(request.Id, new Message<ConsentResponse>(new ConsentResponse { ScopesConsented = new[] { "api1", "api2" } }));
 
             _context.SetUser(_user);
 

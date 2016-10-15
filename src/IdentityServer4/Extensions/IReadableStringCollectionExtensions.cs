@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Http
+namespace IdentityServer4.Extensions
 {
     public static class IReadableStringCollectionExtensions
     {

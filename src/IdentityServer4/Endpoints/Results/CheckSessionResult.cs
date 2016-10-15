@@ -3,11 +3,11 @@
 
 
 using System.Threading.Tasks;
+using IdentityServer4.Extensions;
 using IdentityServer4.Hosting;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using IdentityServer4.Services;
-using IdentityServer4.Models;
 
 namespace IdentityServer4.Endpoints.Results
 {

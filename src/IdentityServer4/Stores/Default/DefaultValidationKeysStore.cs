@@ -4,10 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
-namespace IdentityServer4.Stores
+namespace IdentityServer4.Stores.Default
 {
     public class DefaultValidationKeysStore : IValidationKeysStore
     {

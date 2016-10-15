@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using IdentityServer4.Infrastructure;
 
 namespace IdentityServer4.Models
 {

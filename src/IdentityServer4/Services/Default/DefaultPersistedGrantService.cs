@@ -2,15 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using System;
-using IdentityServer4.Stores;
-using IdentityServer4.Stores.Serialization;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using IdentityServer4.Extensions;
+using IdentityServer4.Infrastructure;
+using IdentityServer4.Models;
+using IdentityServer4.Stores;
+using IdentityServer4.Stores.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Services.Default
 {
@@ -58,7 +59,7 @@ namespace IdentityServer4.Services.Default
 
             var json = _serializer.Serialize(item);
 
-            var grant = new PersistedGrant()
+            var grant = new PersistedGrant
             {
                 Key = key,
                 Type = type,
@@ -66,7 +67,7 @@ namespace IdentityServer4.Services.Default
                 SubjectId = subjectId,
                 CreationTime = created,
                 Expiration = created.AddSeconds(lifetime),
-                Data = json,
+                Data = json
             };
 
             await _store.StoreAsync(grant);

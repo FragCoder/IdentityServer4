@@ -2,16 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
-using IdentityServer4.Models;
+using Host.Models;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models.Messages;
+using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.Quickstart.UI.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace IdentityServer4.Quickstart.UI.Controllers
+namespace Host.Controllers
 {
     /// <summary>
     /// This controller implements the consent logic
@@ -121,10 +122,7 @@ namespace IdentityServer4.Quickstart.UI.Controllers
                     {
                         return new ConsentViewModel(model, returnUrl, request, client, scopes);
                     }
-                    else
-                    {
-                        _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
-                    }
+                    _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
                 }
                 else
                 {

@@ -4,11 +4,11 @@
 
 using System;
 using System.Threading.Tasks;
-using IdentityServer4.Configuration;
-using IdentityServer4.Hosting;
-using Microsoft.AspNetCore.Http;
-using IdentityServer4.Validation;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Extensions;
+using IdentityServer4.Hosting;
+using IdentityServer4.Validation.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityServer4.Endpoints.Results

@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Services.Default
 {
@@ -62,10 +62,7 @@ namespace IdentityServer4.Services.Default
                     _logger.LogDebug("AllowedOrigins configured and origin {0} is allowed", origin);
                     return Task.FromResult(true);
                 }
-                else
-                {
-                    _logger.LogDebug("AllowedOrigins configured and origin {0} is not allowed", origin);
-                }
+                _logger.LogDebug("AllowedOrigins configured and origin {0} is not allowed", origin);
             }
 
             _logger.LogDebug("Exiting; origin {0} is not allowed", origin);

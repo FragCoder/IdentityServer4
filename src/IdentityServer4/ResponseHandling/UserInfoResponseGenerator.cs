@@ -2,17 +2,19 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
-using IdentityServer4.Stores;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
+using IdentityServer4.Models.Contexts;
+using IdentityServer4.ResponseHandling.Interfaces;
+using IdentityServer4.Services;
+using IdentityServer4.Stores;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.ResponseHandling
 {

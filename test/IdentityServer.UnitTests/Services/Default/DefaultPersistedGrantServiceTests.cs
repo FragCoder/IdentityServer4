@@ -2,17 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.Services.Default;
-using IdentityServer4.Stores.InMemory;
-using IdentityServer4.UnitTests.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
+using IdentityServer4.Services.Default;
+using IdentityServer4.Stores.InMemory;
+using IdentityServer4.Stores.Serialization;
+using IdentityServer4.UnitTests.Common;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Services.Default
@@ -27,14 +28,14 @@ namespace IdentityServer4.UnitTests.Services.Default
         {
             _subject = new DefaultPersistedGrantService(
                 _grantStore, 
-                new Stores.Serialization.PersistentGrantSerializer(), 
+                new PersistentGrantSerializer(), 
                 TestLogger.Create<DefaultPersistedGrantService>());
         }
 
         [Fact]
         public async Task StoreAuthorizationCodeAsync_should_persist_grant()
         {
-            var code1 = new AuthorizationCode()
+            var code1 = new AuthorizationCode
             {
                 ClientId = "test",
                 CreationTime = DateTime.Now,
@@ -43,7 +44,7 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "scope1", "scope2" }
+                RequestedScopes = new[] { "scope1", "scope2" }
             };
 
             await _subject.StoreAuthorizationCodeAsync("key", code1);
@@ -62,7 +63,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task RemoveAuthorizationCodeAsync_should_remove_grant()
         {
-            var code1 = new AuthorizationCode()
+            var code1 = new AuthorizationCode
             {
                 ClientId = "test",
                 CreationTime = DateTime.Now,
@@ -71,7 +72,7 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "scope1", "scope2" }
+                RequestedScopes = new[] { "scope1", "scope2" }
             };
 
             await _subject.StoreAuthorizationCodeAsync("key", code1);
@@ -83,7 +84,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task StoreRefreshTokenAsync_should_persist_grant()
         {
-            var token1 = new RefreshToken()
+            var token1 = new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -118,7 +119,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task RemoveRefreshTokenAsync_should_remove_grant()
         {
-            var token1 = new RefreshToken()
+            var token1 = new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -147,7 +148,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task RemoveRefreshTokenAsync_by_sub_and_client_should_remove_grant()
         {
-            var token1 = new RefreshToken()
+            var token1 = new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -179,7 +180,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task StoreReferenceTokenAsync_should_persist_grant()
         {
-            var token1 = new Token()
+            var token1 = new Token
             {
                 ClientId = "client",
                 Audience = "aud",
@@ -207,7 +208,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task RemoveReferenceTokenAsync_should_remove_grant()
         {
-            var token1 = new Token()
+            var token1 = new Token
             {
                 ClientId = "client",
                 Audience = "aud",
@@ -230,7 +231,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task RemoveReferenceTokenAsync_by_sub_and_client_should_remove_grant()
         {
-            var token1 = new Token()
+            var token1 = new Token
             {
                 ClientId = "client",
                 Audience = "aud",
@@ -257,11 +258,11 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task StoreUserConsentAsync_should_persist_grant()
         {
-            var consent1 = new Consent()
+            var consent1 = new Consent
             {
                 ClientId = "client",
                 SubjectId = "123",
-                Scopes = new string[] { "foo", "bar" }
+                Scopes = new[] { "foo", "bar" }
             };
 
             await _subject.StoreUserConsentAsync(consent1);
@@ -269,17 +270,17 @@ namespace IdentityServer4.UnitTests.Services.Default
 
             consent2.ClientId.Should().Be(consent1.ClientId);
             consent2.SubjectId.Should().Be(consent1.SubjectId);
-            consent2.Scopes.ShouldBeEquivalentTo(new string[] { "bar", "foo" });
+            consent2.Scopes.ShouldBeEquivalentTo(new[] { "bar", "foo" });
         }
 
         [Fact]
         public async Task RemoveUserConsentAsync_should_remove_grant()
         {
-            var consent1 = new Consent()
+            var consent1 = new Consent
             {
                 ClientId = "client",
                 SubjectId = "123",
-                Scopes = new string[] { "foo", "bar" }
+                Scopes = new[] { "foo", "bar" }
             };
 
             await _subject.StoreUserConsentAsync(consent1);
@@ -291,7 +292,7 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task same_key_for_different_grant_types_should_not_interfere_with_each_other()
         {
-            await _subject.StoreReferenceTokenAsync("key", new Token()
+            await _subject.StoreReferenceTokenAsync("key", new Token
             {
                 ClientId = "client1",
                 Audience = "aud",
@@ -302,10 +303,10 @@ namespace IdentityServer4.UnitTests.Services.Default
                 {
                     new Claim("sub", "123"),
                     new Claim("scope", "bar1"),
-                    new Claim("scope", "bar2"),
-                },
+                    new Claim("scope", "bar2")
+                }
             });
-            await _subject.StoreRefreshTokenAsync("key", new RefreshToken()
+            await _subject.StoreRefreshTokenAsync("key", new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 2,
@@ -324,7 +325,7 @@ namespace IdentityServer4.UnitTests.Services.Default
                 },
                 Version = 1
             });
-            await _subject.StoreAuthorizationCodeAsync("key", new AuthorizationCode()
+            await _subject.StoreAuthorizationCodeAsync("key", new AuthorizationCode
             {
                 ClientId = "client1",
                 CreationTime = DateTime.Now,
@@ -333,7 +334,7 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "quux1", "quux2" }
+                RequestedScopes = new[] { "quux1", "quux2" }
             });
 
             (await _subject.GetAuthorizationCodeAsync("key")).Lifetime.Should().Be(3);
@@ -344,26 +345,26 @@ namespace IdentityServer4.UnitTests.Services.Default
         [Fact]
         public async Task GetAllGrantsAsync_should_return_all_grants()
         {
-            await _subject.StoreUserConsentAsync(new Consent()
+            await _subject.StoreUserConsentAsync(new Consent
             {
                 ClientId = "client1",
                 SubjectId = "123",
-                Scopes = new string[] { "foo1", "foo2" }
+                Scopes = new[] { "foo1", "foo2" }
             });
-            await _subject.StoreUserConsentAsync(new Consent()
+            await _subject.StoreUserConsentAsync(new Consent
             {
                 ClientId = "client2",
                 SubjectId = "123",
-                Scopes = new string[] { "foo3" }
+                Scopes = new[] { "foo3" }
             });
-            await _subject.StoreUserConsentAsync(new Consent()
+            await _subject.StoreUserConsentAsync(new Consent
             {
                 ClientId = "client1",
                 SubjectId = "456",
-                Scopes = new string[] { "foo3" }
+                Scopes = new[] { "foo3" }
             });
 
-            await _subject.StoreReferenceTokenAsync("key1", new Token()
+            await _subject.StoreReferenceTokenAsync("key1", new Token
             {
                 ClientId = "client1",
                 Audience = "aud",
@@ -373,10 +374,10 @@ namespace IdentityServer4.UnitTests.Services.Default
                 {
                     new Claim("sub", "123"),
                     new Claim("scope", "bar1"),
-                    new Claim("scope", "bar2"),
-                },
+                    new Claim("scope", "bar2")
+                }
             });
-            await _subject.StoreReferenceTokenAsync("key2", new Token()
+            await _subject.StoreReferenceTokenAsync("key2", new Token
             {
                 ClientId = "client2",
                 Audience = "aud",
@@ -385,10 +386,10 @@ namespace IdentityServer4.UnitTests.Services.Default
                 Claims = new List<Claim>
                 {
                     new Claim("sub", "123"),
-                    new Claim("scope", "bar3"),
-                },
+                    new Claim("scope", "bar3")
+                }
             });
-            await _subject.StoreReferenceTokenAsync("key3", new Token()
+            await _subject.StoreReferenceTokenAsync("key3", new Token
             {
                 ClientId = "client1",
                 Audience = "aud",
@@ -397,11 +398,11 @@ namespace IdentityServer4.UnitTests.Services.Default
                 Claims = new List<Claim>
                 {
                     new Claim("sub", "456"),
-                    new Claim("scope", "bar3"),
-                },
+                    new Claim("scope", "bar3")
+                }
             });
 
-            await _subject.StoreRefreshTokenAsync("key4", new RefreshToken()
+            await _subject.StoreRefreshTokenAsync("key4", new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -420,7 +421,7 @@ namespace IdentityServer4.UnitTests.Services.Default
                 },
                 Version = 1
             });
-            await _subject.StoreRefreshTokenAsync("key5", new RefreshToken()
+            await _subject.StoreRefreshTokenAsync("key5", new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -433,12 +434,12 @@ namespace IdentityServer4.UnitTests.Services.Default
                     Claims = new List<Claim>
                     {
                         new Claim("sub", "456"),
-                        new Claim("scope", "baz3"),
+                        new Claim("scope", "baz3")
                     }
                 },
                 Version = 1
             });
-            await _subject.StoreRefreshTokenAsync("key6", new RefreshToken()
+            await _subject.StoreRefreshTokenAsync("key6", new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -451,13 +452,13 @@ namespace IdentityServer4.UnitTests.Services.Default
                     Claims = new List<Claim>
                     {
                         new Claim("sub", "123"),
-                        new Claim("scope", "baz3"),
+                        new Claim("scope", "baz3")
                     }
                 },
                 Version = 1
             });
 
-            await _subject.StoreAuthorizationCodeAsync("key7", new AuthorizationCode()
+            await _subject.StoreAuthorizationCodeAsync("key7", new AuthorizationCode
             {
                 ClientId = "client1",
                 CreationTime = DateTime.Now,
@@ -466,9 +467,9 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "quux1", "quux2" }
+                RequestedScopes = new[] { "quux1", "quux2" }
             });
-            await _subject.StoreAuthorizationCodeAsync("key8", new AuthorizationCode()
+            await _subject.StoreAuthorizationCodeAsync("key8", new AuthorizationCode
             {
                 ClientId = "client2",
                 CreationTime = DateTime.Now,
@@ -477,10 +478,10 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "quux3" }
+                RequestedScopes = new[] { "quux3" }
             });
             
-            await _subject.StoreAuthorizationCodeAsync("key9", new AuthorizationCode()
+            await _subject.StoreAuthorizationCodeAsync("key9", new AuthorizationCode
             {
                 ClientId = "client1",
                 CreationTime = DateTime.Now,
@@ -489,7 +490,7 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "quux3" }
+                RequestedScopes = new[] { "quux3" }
             });
 
             var grants = await _subject.GetAllGrantsAsync("123");
@@ -498,37 +499,37 @@ namespace IdentityServer4.UnitTests.Services.Default
             var grant1 = grants.First(x => x.ClientId == "client1");
             grant1.SubjectId.Should().Be("123");
             grant1.ClientId.Should().Be("client1");
-            grant1.Scopes.ShouldBeEquivalentTo(new string[] { "foo1", "foo2", "bar1", "bar2", "baz1", "baz2", "quux1", "quux2" });
+            grant1.Scopes.ShouldBeEquivalentTo(new[] { "foo1", "foo2", "bar1", "bar2", "baz1", "baz2", "quux1", "quux2" });
 
             var grant2 = grants.First(x => x.ClientId == "client2");
             grant2.SubjectId.Should().Be("123");
             grant2.ClientId.Should().Be("client2");
-            grant2.Scopes.ShouldBeEquivalentTo(new string[] { "foo3", "bar3", "baz3", "quux3" });
+            grant2.Scopes.ShouldBeEquivalentTo(new[] { "foo3", "bar3", "baz3", "quux3" });
         }
 
         [Fact]
         public async Task RemoveAllGrantsAsync_should_remove_all_grants()
         {
-            await _subject.StoreUserConsentAsync(new Consent()
+            await _subject.StoreUserConsentAsync(new Consent
             {
                 ClientId = "client1",
                 SubjectId = "123",
-                Scopes = new string[] { "foo1", "foo2" }
+                Scopes = new[] { "foo1", "foo2" }
             });
-            await _subject.StoreUserConsentAsync(new Consent()
+            await _subject.StoreUserConsentAsync(new Consent
             {
                 ClientId = "client2",
                 SubjectId = "123",
-                Scopes = new string[] { "foo3" }
+                Scopes = new[] { "foo3" }
             });
-            await _subject.StoreUserConsentAsync(new Consent()
+            await _subject.StoreUserConsentAsync(new Consent
             {
                 ClientId = "client1",
                 SubjectId = "456",
-                Scopes = new string[] { "foo3" }
+                Scopes = new[] { "foo3" }
             });
 
-            await _subject.StoreReferenceTokenAsync("key1", new Token()
+            await _subject.StoreReferenceTokenAsync("key1", new Token
             {
                 ClientId = "client1",
                 Audience = "aud",
@@ -538,10 +539,10 @@ namespace IdentityServer4.UnitTests.Services.Default
                 {
                     new Claim("sub", "123"),
                     new Claim("scope", "bar1"),
-                    new Claim("scope", "bar2"),
-                },
+                    new Claim("scope", "bar2")
+                }
             });
-            await _subject.StoreReferenceTokenAsync("key2", new Token()
+            await _subject.StoreReferenceTokenAsync("key2", new Token
             {
                 ClientId = "client2",
                 Audience = "aud",
@@ -550,10 +551,10 @@ namespace IdentityServer4.UnitTests.Services.Default
                 Claims = new List<Claim>
                 {
                     new Claim("sub", "123"),
-                    new Claim("scope", "bar3"),
-                },
+                    new Claim("scope", "bar3")
+                }
             });
-            await _subject.StoreReferenceTokenAsync("key3", new Token()
+            await _subject.StoreReferenceTokenAsync("key3", new Token
             {
                 ClientId = "client1",
                 Audience = "aud",
@@ -562,11 +563,11 @@ namespace IdentityServer4.UnitTests.Services.Default
                 Claims = new List<Claim>
                 {
                     new Claim("sub", "456"),
-                    new Claim("scope", "bar3"),
-                },
+                    new Claim("scope", "bar3")
+                }
             });
 
-            await _subject.StoreRefreshTokenAsync("key4", new RefreshToken()
+            await _subject.StoreRefreshTokenAsync("key4", new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -585,7 +586,7 @@ namespace IdentityServer4.UnitTests.Services.Default
                 },
                 Version = 1
             });
-            await _subject.StoreRefreshTokenAsync("key5", new RefreshToken()
+            await _subject.StoreRefreshTokenAsync("key5", new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -598,12 +599,12 @@ namespace IdentityServer4.UnitTests.Services.Default
                     Claims = new List<Claim>
                     {
                         new Claim("sub", "456"),
-                        new Claim("scope", "baz3"),
+                        new Claim("scope", "baz3")
                     }
                 },
                 Version = 1
             });
-            await _subject.StoreRefreshTokenAsync("key6", new RefreshToken()
+            await _subject.StoreRefreshTokenAsync("key6", new RefreshToken
             {
                 CreationTime = DateTime.Now,
                 Lifetime = 10,
@@ -616,13 +617,13 @@ namespace IdentityServer4.UnitTests.Services.Default
                     Claims = new List<Claim>
                     {
                         new Claim("sub", "123"),
-                        new Claim("scope", "baz3"),
+                        new Claim("scope", "baz3")
                     }
                 },
                 Version = 1
             });
 
-            await _subject.StoreAuthorizationCodeAsync("key7", new AuthorizationCode()
+            await _subject.StoreAuthorizationCodeAsync("key7", new AuthorizationCode
             {
                 ClientId = "client1",
                 CreationTime = DateTime.Now,
@@ -631,9 +632,9 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "quux1", "quux2" }
+                RequestedScopes = new[] { "quux1", "quux2" }
             });
-            await _subject.StoreAuthorizationCodeAsync("key8", new AuthorizationCode()
+            await _subject.StoreAuthorizationCodeAsync("key8", new AuthorizationCode
             {
                 ClientId = "client2",
                 CreationTime = DateTime.Now,
@@ -642,10 +643,10 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "quux3" }
+                RequestedScopes = new[] { "quux3" }
             });
 
-            await _subject.StoreAuthorizationCodeAsync("key9", new AuthorizationCode()
+            await _subject.StoreAuthorizationCodeAsync("key9", new AuthorizationCode
             {
                 ClientId = "client1",
                 CreationTime = DateTime.Now,
@@ -654,7 +655,7 @@ namespace IdentityServer4.UnitTests.Services.Default
                 CodeChallenge = "challenge",
                 RedirectUri = "http://client/cb",
                 Nonce = "nonce",
-                RequestedScopes = new string[] { "quux3" }
+                RequestedScopes = new[] { "quux3" }
             });
 
             await _subject.RemoveAllGrantsAsync("123", "client1");

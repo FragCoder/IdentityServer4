@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Extensions;
 using System;
 using System.Security.Claims;
+using IdentityServer4.Extensions;
 
-namespace IdentityServer4.Models
+namespace IdentityServer4.Models.Contexts
 {
     /// <summary>
     /// Context describing the is-active check

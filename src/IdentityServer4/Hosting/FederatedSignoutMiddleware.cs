@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Configuration;
-using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Hosting
@@ -84,10 +84,10 @@ namespace IdentityServer4.Hosting
             {
                 return request.Query[OidcConstants.EndSessionRequest.Sid].FirstOrDefault();
             }
-            else if (String.Equals(request.Method, "POST", StringComparison.OrdinalIgnoreCase) && 
-              !String.IsNullOrEmpty(request.ContentType) &&
-              request.ContentType.StartsWith("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase) && 
-              request.Body.CanRead)
+            if (String.Equals(request.Method, "POST", StringComparison.OrdinalIgnoreCase) && 
+                !String.IsNullOrEmpty(request.ContentType) &&
+                request.ContentType.StartsWith("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase) && 
+                request.Body.CanRead)
             {
                 var form = await request.ReadFormAsync();
                 return form[OidcConstants.EndSessionRequest.Sid].FirstOrDefault();

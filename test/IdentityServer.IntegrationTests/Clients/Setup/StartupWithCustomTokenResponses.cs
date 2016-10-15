@@ -3,11 +3,13 @@
 
 
 using IdentityServer4.Configuration;
-using IdentityServer4.Validation;
+using IdentityServer4.Configuration.DependencyInjection;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Validation.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IdentityServer4.IntegrationTests.Clients
+namespace IdentityServer4.IntegrationTests.Clients.Setup
 {
     public class StartupWithCustomTokenResponses
     {

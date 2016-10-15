@@ -2,15 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.Validation;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
+using IdentityServer4.Models.Contexts;
+using IdentityServer4.Validation.Models;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Services.Default
 {
@@ -132,7 +133,7 @@ namespace IdentityServer4.Services.Default
             // add client_id
             var outputClaims = new List<Claim>
             {
-                new Claim(JwtClaimTypes.ClientId, client.ClientId),
+                new Claim(JwtClaimTypes.ClientId, client.ClientId)
             };
 
             // check for client claims
@@ -237,7 +238,7 @@ namespace IdentityServer4.Services.Default
             {
                 new Claim(JwtClaimTypes.Subject, subject.GetSubjectId()),
                 new Claim(JwtClaimTypes.AuthenticationTime, subject.GetAuthenticationTimeEpoch().ToString(), ClaimValueTypes.Integer),
-                new Claim(JwtClaimTypes.IdentityProvider, subject.GetIdentityProvider()),
+                new Claim(JwtClaimTypes.IdentityProvider, subject.GetIdentityProvider())
             };
 
             claims.AddRange(subject.GetAuthenticationMethods());

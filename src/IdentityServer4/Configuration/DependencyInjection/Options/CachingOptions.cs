@@ -4,7 +4,7 @@
 
 using System;
 
-namespace IdentityServer4.Configuration
+namespace IdentityServer4.Configuration.DependencyInjection.Options
 {
     /// <summary>
     /// Caching options.

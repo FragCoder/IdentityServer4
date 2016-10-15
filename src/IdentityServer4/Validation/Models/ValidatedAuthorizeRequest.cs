@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Collections.Generic;
 using IdentityModel;
 using IdentityServer4.Models;
-using System.Collections.Generic;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Models
 {
     /// <summary>
     /// Models a validated request to the authorize endpoint.

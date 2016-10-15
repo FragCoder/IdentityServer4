@@ -4,14 +4,17 @@
 
 using System;
 using System.Threading.Tasks;
-using IdentityServer4.Validation;
-using IdentityServer4.ResponseHandling;
-using IdentityServer4.Services;
-using Microsoft.Extensions.Logging;
-using IdentityServer4.Hosting;
 using IdentityServer4.Endpoints.Results;
-using Microsoft.AspNetCore.Http;
 using IdentityServer4.Events;
+using IdentityServer4.Extensions;
+using IdentityServer4.Hosting;
+using IdentityServer4.ResponseHandling.Interfaces;
+using IdentityServer4.Services;
+using IdentityServer4.Validation;
+using IdentityServer4.Validation.Interfaces;
+using IdentityServer4.Validation.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Endpoints
 {

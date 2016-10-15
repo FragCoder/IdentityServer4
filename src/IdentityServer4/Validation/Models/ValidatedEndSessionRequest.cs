@@ -4,7 +4,7 @@
 
 using IdentityServer4.Models;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Models
 {
     /// <summary>
     /// Represents a validated end session (logout) request

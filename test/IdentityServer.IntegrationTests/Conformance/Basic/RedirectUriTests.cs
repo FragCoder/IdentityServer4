@@ -2,17 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.Models;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Xunit;
-using System.Net.Http;
+using FluentAssertions;
+using IdentityServer4.Extensions;
 using IdentityServer4.IntegrationTests.Common;
+using IdentityServer4.Models;
 using IdentityServer4.Services.InMemory;
+using Xunit;
 
 namespace IdentityServer4.IntegrationTests.Conformance.Basic
 {
@@ -52,11 +53,11 @@ namespace IdentityServer4.IntegrationTests.Conformance.Basic
             {
                 Subject = "bob",
                 Username = "bob",
-                Claims = new Claim[]
+                Claims = new[]
                     {
                         new Claim("name", "Bob Loblaw"),
                         new Claim("email", "bob@loblaw.com"),
-                        new Claim("role", "Attorney"),
+                        new Claim("role", "Attorney")
                     }
             });
         }
@@ -131,8 +132,8 @@ namespace IdentityServer4.IntegrationTests.Conformance.Basic
             authorization.Code.Should().NotBeNull();
             authorization.State.Should().Be(state);
             var query = response.Headers.Location.ParseQueryString();
-            query["foo"].ToString().Should().Be("bar");
-            query["baz"].ToString().Should().Be("quux");
+            query["foo"].Should().Be("bar");
+            query["baz"].Should().Be("quux");
         }
 
         [Fact]

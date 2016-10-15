@@ -2,15 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.Services.Default;
-using IdentityServer4.UnitTests.Common;
-using Microsoft.AspNetCore.Http.Features.Authentication;
 using System;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityServer4.Services.Default;
+using IdentityServer4.UnitTests.Common;
+using Microsoft.AspNetCore.Http.Features.Authentication;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Services.Default

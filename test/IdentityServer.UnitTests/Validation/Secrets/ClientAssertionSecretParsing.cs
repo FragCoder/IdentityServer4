@@ -5,14 +5,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Text;
 using FluentAssertions;
-using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.UnitTests.Common;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace IdentityServer4.Tests.Validation.Secrets
+namespace IdentityServer4.UnitTests.Validation.Secrets
 {
     public class ClientAssertionSecretParsing
     {

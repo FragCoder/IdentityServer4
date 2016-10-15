@@ -2,11 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.IntegrationTests.Common;
-using IdentityServer4.Models;
-using IdentityServer4.Services.InMemory;
-using Microsoft.AspNetCore.WebUtilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,7 +9,13 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityServer4.IntegrationTests.Common;
+using IdentityServer4.Models;
+using IdentityServer4.Services.InMemory;
+using Microsoft.AspNetCore.WebUtilities;
 using Xunit;
+using AuthorizeResponse = IdentityModel.Client.AuthorizeResponse;
 
 namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
 {
@@ -48,7 +49,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
                 LogoutUri = "https://client2/signout",
                 PostLogoutRedirectUris = new List<string> {
                     "https://client2/signout-callback",
-                    "https://client2/signout-callback2",
+                    "https://client2/signout-callback2"
                 },
                 AllowAccessTokensViaBrowser = true
             });
@@ -57,15 +58,15 @@ namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
             {
                 Subject = "bob",
                 Username = "bob",
-                Claims = new Claim[]
+                Claims = new[]
                 {
                     new Claim("name", "Bob Loblaw"),
                     new Claim("email", "bob@loblaw.com"),
-                    new Claim("role", "Attorney"),
+                    new Claim("role", "Attorney")
                 }
             });
 
-            _mockPipeline.Scopes.AddRange(new Scope[] {
+            _mockPipeline.Scopes.AddRange(new[] {
                 StandardScopes.OpenId
             });
 
@@ -109,7 +110,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
 
             _mockPipeline.BrowserClient.AllowAutoRedirect = false;
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             var id_token = authorization.IdentityToken;
 
             response = await _mockPipeline.BrowserClient.GetAsync(MockIdSvrUiPipeline.EndSessionEndpoint +
@@ -196,7 +197,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
 
             _mockPipeline.BrowserClient.AllowAutoRedirect = false;
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             var id_token = authorization.IdentityToken;
 
             _mockPipeline.BrowserClient.AllowAutoRedirect = true;
@@ -244,7 +245,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
             _mockPipeline.BrowserClient.AllowAutoRedirect = false;
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
 
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             var id_token = authorization.IdentityToken;
 
             _mockPipeline.BrowserClient.AllowAutoRedirect = true;
@@ -277,7 +278,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
             _mockPipeline.BrowserClient.AllowAutoRedirect = false;
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
 
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             var id_token = authorization.IdentityToken;
 
             await _mockPipeline.LoginAsync(IdentityServerPrincipal.Create("alice", "Alice"));
@@ -374,7 +375,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
                 state: "123_state",
                 nonce: "123_nonce");
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             var id_token = authorization.IdentityToken;
 
             _mockPipeline.BrowserClient.AllowAutoRedirect = true;
@@ -399,7 +400,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.EndSession
                 state: "123_state",
                 nonce: "123_nonce");
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             var id_token = authorization.IdentityToken;
 
             _mockPipeline.BrowserClient.AllowAutoRedirect = true;

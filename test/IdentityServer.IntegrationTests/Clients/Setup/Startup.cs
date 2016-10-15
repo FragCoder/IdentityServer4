@@ -2,11 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IdentityServer4.IntegrationTests.Clients
+namespace IdentityServer4.IntegrationTests.Clients.Setup
 {
     public class Startup
     {

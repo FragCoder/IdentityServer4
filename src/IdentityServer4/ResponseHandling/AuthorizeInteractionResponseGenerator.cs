@@ -2,23 +2,27 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Configuration;
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
-using IdentityServer4.Validation;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Extensions;
+using IdentityServer4.Infrastructure;
+using IdentityServer4.Models;
+using IdentityServer4.Models.Contexts;
+using IdentityServer4.Models.Messages;
+using IdentityServer4.ResponseHandling.Interfaces;
+using IdentityServer4.Services;
+using IdentityServer4.Validation.Models;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.ResponseHandling
 {
     /// <summary>
     /// Default logic for determining if user must login or consent when making requests to the authorization endpoint.
     /// </summary>
-    /// <seealso cref="IdentityServer4.ResponseHandling.IAuthorizeInteractionResponseGenerator" />
+    /// <seealso cref="IAuthorizeInteractionResponseGenerator" />
     public class AuthorizeInteractionResponseGenerator : IAuthorizeInteractionResponseGenerator
     {
         private readonly ILogger<AuthorizeInteractionResponseGenerator> _logger;
@@ -70,7 +74,7 @@ namespace IdentityServer4.ResponseHandling
 
                 _logger.LogInformation("Showing login: request contains prompt=login");
 
-                return new InteractionResponse() { IsLogin = true };
+                return new InteractionResponse { IsLogin = true };
             }
 
             // unauthenticated user
@@ -103,7 +107,7 @@ namespace IdentityServer4.ResponseHandling
 
                     return new InteractionResponse
                     {
-                        Error = OidcConstants.AuthorizeErrors.LoginRequired,
+                        Error = OidcConstants.AuthorizeErrors.LoginRequired
                     };
                 }
 
@@ -116,7 +120,7 @@ namespace IdentityServer4.ResponseHandling
                     _logger.LogInformation("Showing login: User is not active");
                 }
 
-                return new InteractionResponse() { IsLogin = true };
+                return new InteractionResponse { IsLogin = true };
             }
 
             // check current idp
@@ -129,7 +133,7 @@ namespace IdentityServer4.ResponseHandling
                 if (idp != currentIdp)
                 {
                     _logger.LogInformation("Showing login: Current IdP ({idp}) is not the requested IdP ({idp})", currentIdp, idp);
-                    return new InteractionResponse() { IsLogin = true };
+                    return new InteractionResponse { IsLogin = true };
                 }
             }
 
@@ -141,7 +145,7 @@ namespace IdentityServer4.ResponseHandling
                 {
                     _logger.LogInformation("Showing login: Requested MaxAge exceeded.");
 
-                    return new InteractionResponse() { IsLogin = true };
+                    return new InteractionResponse { IsLogin = true };
                 }
             }
 
@@ -149,7 +153,7 @@ namespace IdentityServer4.ResponseHandling
             if (currentIdp == Constants.LocalIdentityProvider && !request.Client.EnableLocalLogin)
             {
                 _logger.LogInformation("Showing login: User logged in locally, but client does not allow local logins");
-                return new InteractionResponse() { IsLogin = true };
+                return new InteractionResponse { IsLogin = true };
             }
 
             // check external idp restrictions
@@ -158,7 +162,7 @@ namespace IdentityServer4.ResponseHandling
                 if (!request.Client.IdentityProviderRestrictions.Contains(currentIdp))
                 {
                     _logger.LogInformation("Showing login: User is logged in with idp: {idp}, but idp not in client restriction list.", currentIdp);
-                    return new InteractionResponse() { IsLogin = true };
+                    return new InteractionResponse { IsLogin = true };
                 }
             }
 
@@ -193,7 +197,7 @@ namespace IdentityServer4.ResponseHandling
 
                 return new InteractionResponse
                 {
-                    Error = OidcConstants.AuthorizeErrors.ConsentRequired,
+                    Error = OidcConstants.AuthorizeErrors.ConsentRequired
                 };
             }
 

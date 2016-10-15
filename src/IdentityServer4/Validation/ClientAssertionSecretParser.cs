@@ -2,13 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using System;
-using System.Threading.Tasks;
-using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading.Tasks;
 using IdentityModel;
-using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
+using IdentityServer4.Validation.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -88,7 +89,7 @@ namespace IdentityServer4.Validation
                         Type = IdentityServerConstants.ParsedSecretTypes.JwtBearer
                     };
 
-                    return Task.FromResult<ParsedSecret>(parsedSecret);
+                    return Task.FromResult(parsedSecret);
                 }
             }
 

@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-namespace IdentityServer4.Events
+namespace IdentityServer4.Events.Base
 {
     /// <summary>
     /// Indicates if the event is a success or fail event.
@@ -27,6 +27,6 @@ namespace IdentityServer4.Events
         /// <summary>
         /// Error event
         /// </summary>
-        Error = 4,
+        Error = 4
     }
 }

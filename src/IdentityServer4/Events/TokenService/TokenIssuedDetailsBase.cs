@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace IdentityServer4.Events
+namespace IdentityServer4.Events.TokenService
 {
     /// <summary>
     /// Details base class for issued token events

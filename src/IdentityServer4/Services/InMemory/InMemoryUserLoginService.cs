@@ -2,10 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Linq;
+using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using IdentityModel;
 
 namespace IdentityServer4.Services.InMemory
@@ -43,7 +44,7 @@ namespace IdentityServer4.Services.InMemory
         /// </summary>
         public InMemoryUser FindByUsername(string username)
         {
-            return _users.FirstOrDefault(x=>x.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
+            return _users.FirstOrDefault(x=>x.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace IdentityServer4.Services.InMemory
             }
         
             // if no display name was provided, try to construct by first and/or last name
-            if (!filtered.Any(x=>x.Type == JwtClaimTypes.Name))
+            if (filtered.All(x => x.Type != JwtClaimTypes.Name))
             {
                 var first = filtered.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value;
                 var last = filtered.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value;
@@ -109,7 +110,7 @@ namespace IdentityServer4.Services.InMemory
             var name = filtered.FirstOrDefault(c => c.Type == JwtClaimTypes.Name)?.Value ?? sub;
 
             // create new user
-            var user = new InMemoryUser()
+            var user = new InMemoryUser
             {
                 Enabled = true,
                 Subject = sub,

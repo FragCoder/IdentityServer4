@@ -2,15 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using IdentityModel;
+using IdentityServer4.Validation.Models;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Extensions
 {
     public static class ValidatedAuthorizeRequestExtensions
     {

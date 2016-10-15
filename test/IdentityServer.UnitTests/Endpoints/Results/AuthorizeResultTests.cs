@@ -2,21 +2,22 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel;
-using IdentityServer4.Configuration;
-using IdentityServer4.Endpoints.Results;
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.UnitTests.Common;
-using IdentityServer4.Validation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Endpoints.Results;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
+using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
 using Xunit;
+using ErrorMessage = IdentityServer4.Models.Messages.ErrorMessage;
 
 namespace IdentityServer4.UnitTests.Endpoints.Results
 {
@@ -27,7 +28,7 @@ namespace IdentityServer4.UnitTests.Endpoints.Results
         AuthorizeResponse _response = new AuthorizeResponse();
         IdentityServerOptions _options = new IdentityServerOptions();
         MockClientSessionService _mockClientSession = new MockClientSessionService();
-        MockMessageStore<Models.ErrorMessage> _mockErrorMessageStore = new MockMessageStore<Models.ErrorMessage>();
+        MockMessageStore<ErrorMessage> _mockErrorMessageStore = new MockMessageStore<ErrorMessage>();
 
         DefaultHttpContext _context = new DefaultHttpContext();
 
@@ -88,7 +89,7 @@ namespace IdentityServer4.UnitTests.Endpoints.Results
             _response.Request = new ValidatedAuthorizeRequest
             {
                 ResponseMode = OidcConstants.ResponseModes.Query,
-                RedirectUri = "http://client/callback",
+                RedirectUri = "http://client/callback"
             };
 
             await _subject.ExecuteAsync(_context);
@@ -106,7 +107,7 @@ namespace IdentityServer4.UnitTests.Endpoints.Results
             {
                 ClientId = "client",
                 ResponseMode = OidcConstants.ResponseModes.Query,
-                RedirectUri = "http://client/callback",
+                RedirectUri = "http://client/callback"
             };
 
             await _subject.ExecuteAsync(_context);

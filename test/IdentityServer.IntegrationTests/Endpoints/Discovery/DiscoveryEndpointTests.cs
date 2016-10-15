@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Threading.Tasks;
 using FluentAssertions;
 using IdentityServer4.IntegrationTests.Common;
 using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace IdentityServer4.IntegrationTests.Endpoints.Discovery

@@ -2,11 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Collections.Generic;
 using FluentAssertions;
 using IdentityServer4.Models;
 using IdentityServer4.Services.InMemory;
 using IdentityServer4.UnitTests.Common;
-using System.Collections.Generic;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Services.InMemory
@@ -65,7 +65,7 @@ namespace IdentityServer4.UnitTests.Services.InMemory
                 {
                     "http://foo",
                     "http://bar",
-                    "http://baz",
+                    "http://baz"
                 }
             });
             _subject.IsOriginAllowedAsync("http://bar").Result.Should().Be(true);
@@ -81,7 +81,7 @@ namespace IdentityServer4.UnitTests.Services.InMemory
                 {
                     "http://foo",
                     "http://bar",
-                    "http://baz",
+                    "http://baz"
                 }
             });
             _subject.IsOriginAllowedAsync("http://quux").Result.Should().Be(false);
@@ -91,19 +91,19 @@ namespace IdentityServer4.UnitTests.Services.InMemory
         [Trait("Category", Category)]
         public void many_clients_have_same_origins_should_allow_origin()
         {
-            _clients.AddRange(new Client[] {
+            _clients.AddRange(new[] {
                 new Client
                 {
                     AllowedCorsOrigins = new List<string>
                     {
-                        "http://foo",
+                        "http://foo"
                     }
                 },
                 new Client
                 {
                     AllowedCorsOrigins = new List<string>
                     {
-                        "http://foo",
+                        "http://foo"
                     }
                 }
             });

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using IdentityServer4.Extensions;
 
-namespace IdentityServer4.Models
+namespace IdentityServer4.Models.Contexts
 {
     /// <summary>
     /// Class describing the profile data request

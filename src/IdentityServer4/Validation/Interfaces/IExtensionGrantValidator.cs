@@ -3,8 +3,9 @@
 
 
 using System.Threading.Tasks;
+using IdentityServer4.Validation.Contexts;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Interfaces
 {
     /// <summary>
     /// Handles validation of token requests using custom grant types

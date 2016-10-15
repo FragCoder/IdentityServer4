@@ -2,20 +2,22 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Logging;
-using IdentityServer4.Extensions;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using IdentityServer4.Configuration;
+using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Extensions;
+using IdentityServer4.Logging.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
+using IdentityServer4.Validation.Interfaces;
+using IdentityServer4.Validation.Models;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System;
+using Microsoft.Extensions.Logging;
 
 namespace IdentityServer4.Validation
 {
@@ -63,9 +65,9 @@ namespace IdentityServer4.Validation
                 return Invalid("User is anonymous. Ignoring end session parameters");
             }
 
-            var validatedRequest = new ValidatedEndSessionRequest()
+            var validatedRequest = new ValidatedEndSessionRequest
             {
-                Raw = parameters,
+                Raw = parameters
             };
 
             var idTokenHint = parameters.Get(OidcConstants.EndSessionRequest.IdTokenHint);
@@ -119,7 +121,7 @@ namespace IdentityServer4.Validation
 
             LogSuccess(validatedRequest);
 
-            return new EndSessionValidationResult()
+            return new EndSessionValidationResult
             {
                 ValidatedRequest = validatedRequest,
                 IsError = false
@@ -155,7 +157,7 @@ namespace IdentityServer4.Validation
 
         public async Task<EndSessionCallbackValidationResult> ValidateCallbackAsync(NameValueCollection parameters)
         {
-            var result = new EndSessionCallbackValidationResult()
+            var result = new EndSessionCallbackValidationResult
             {
                 IsError = true
             };
@@ -189,10 +191,7 @@ namespace IdentityServer4.Validation
                         _logger.LogDebug("sid validation successful");
                         return sid;
                     }
-                    else
-                    {
-                        _logger.LogError("sid in query string does not match sid from cookie");
-                    }
+                    _logger.LogError("sid in query string does not match sid from cookie");
                 }
                 else
                 {

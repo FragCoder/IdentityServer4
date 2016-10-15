@@ -4,12 +4,12 @@
 
 using System.Collections.Generic;
 
-namespace IdentityServer4.Validation
+namespace IdentityServer4.Validation.Models
 {
     /// <summary>
     /// Validation result for end session callback requests.
     /// </summary>
-    /// <seealso cref="IdentityServer4.Validation.ValidationResult" />
+    /// <seealso cref="ValidationResult" />
     public class EndSessionCallbackValidationResult : ValidationResult
     {
         public IEnumerable<string> ClientLogoutUrls { get; internal set; }

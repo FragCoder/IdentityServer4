@@ -2,25 +2,25 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel.Client;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Xunit;
-using System.IdentityModel.Tokens.Jwt;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
-using IdentityModel;
-using Microsoft.IdentityModel.Tokens;
-using IdentityServer4.IntegrationTests.Common;
-using Newtonsoft.Json;
 using System.Text;
-using static IdentityModel.Client.TokenResponse;
+using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityModel.Client;
+using IdentityServer4.IntegrationTests.Clients.Setup;
+using IdentityServer4.IntegrationTests.Common;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xunit;
 
 namespace IdentityServer4.IntegrationTests.Clients
 {
@@ -154,7 +154,7 @@ namespace IdentityServer4.IntegrationTests.Clients
             var token = new JwtSecurityToken(
                     clientId,
                     TokenEndpoint,
-                    new List<Claim>()
+                    new List<Claim>
                     {
                         new Claim("jti", Guid.NewGuid().ToString()),
                         new Claim(JwtClaimTypes.Subject, clientId),

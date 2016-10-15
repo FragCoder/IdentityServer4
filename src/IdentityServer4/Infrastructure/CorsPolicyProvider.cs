@@ -4,14 +4,15 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using IdentityServer4.Configuration;
 using IdentityServer4.Configuration.DependencyInjection;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Extensions;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
-namespace IdentityServer4
+namespace IdentityServer4.Infrastructure
 {
     internal class CorsPolicyProvider : ICorsPolicyProvider
     {
@@ -38,10 +39,7 @@ namespace IdentityServer4
             {
                 return ProcessAsync(context);
             }
-            else
-            {
-                return _inner.GetPolicyAsync(context, policyName);
-            }
+            return _inner.GetPolicyAsync(context, policyName);
         }
 
         async Task<CorsPolicy> ProcessAsync(HttpContext context)
@@ -59,10 +57,7 @@ namespace IdentityServer4
                         _logger.LogDebug("CorsPolicyService allowed origin: {origin}", origin);
                         return Allow(origin);
                     }
-                    else
-                    {
-                        _logger.LogWarning("CorsPolicyService did not allow origin: {origin}", origin);
-                    }
+                    _logger.LogWarning("CorsPolicyService did not allow origin: {origin}", origin);
                 }
                 else
                 {

@@ -2,14 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel;
 using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityServer4.UnitTests.Validation.Setup;
 using Xunit;
 
-namespace IdentityServer4.UnitTests.Validation.AuthorizeRequest
+namespace IdentityServer4.UnitTests.Validation.AuthorizeRequest_Validation
 {
     public class Authorize_ProtocolValidation_Invalid
     {

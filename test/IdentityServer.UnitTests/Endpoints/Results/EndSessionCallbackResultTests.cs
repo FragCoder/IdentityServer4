@@ -2,17 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityServer4.Configuration;
-using IdentityServer4.Endpoints.Results;
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.UnitTests.Common;
-using IdentityServer4.Validation;
-using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Endpoints.Results;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models.Messages;
+using IdentityServer4.UnitTests.Common;
+using IdentityServer4.Validation.Models;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace IdentityServer4.UnitTests.Endpoints.Results
@@ -74,7 +74,7 @@ namespace IdentityServer4.UnitTests.Endpoints.Results
         public async Task success_should_render_html_and_iframes()
         {
             _result.IsError = false;
-            _result.ClientLogoutUrls = new string[] { "http://foo.com", "http://bar.com" };
+            _result.ClientLogoutUrls = new[] { "http://foo.com", "http://bar.com" };
 
             await _subject.ExecuteAsync(_context);
 

@@ -2,15 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Threading.Tasks;
-using Xunit;
-using FluentAssertions;
-using System.Net;
 using System.Collections.Generic;
-using IdentityServer4.Models;
+using System.Net;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using FluentAssertions;
 using IdentityServer4.IntegrationTests.Common;
+using IdentityServer4.Models;
 using IdentityServer4.Services.InMemory;
+using Xunit;
+using AuthorizeResponse = IdentityModel.Client.AuthorizeResponse;
 
 namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 {
@@ -24,7 +25,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
         public RestrictAccessTokenViaBrowserTests()
         {
-            _mockPipeline.Clients.AddRange(new Client[] {
+            _mockPipeline.Clients.AddRange(new[] {
                 new Client
                 {
                     ClientId = "client1",
@@ -60,22 +61,22 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
                     AllowedScopes = new List<string> { "openid" },
                     RedirectUris = new List<string> { "https://client4/callback" },
                     AllowAccessTokensViaBrowser = false
-                },
+                }
             });
 
             _mockPipeline.Users.Add(new InMemoryUser
             {
                 Subject = "bob",
                 Username = "bob",
-                Claims = new Claim[]
+                Claims = new[]
                 {
                     new Claim("name", "Bob Loblaw"),
                     new Claim("email", "bob@loblaw.com"),
-                    new Claim("role", "Attorney"),
+                    new Claim("role", "Attorney")
                 }
             });
 
-            _mockPipeline.Scopes.AddRange(new Scope[] {
+            _mockPipeline.Scopes.AddRange(new[] {
                 StandardScopes.OpenId
             });
 
@@ -96,7 +97,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
             response.StatusCode.Should().Be(HttpStatusCode.Found);
             response.Headers.Location.AbsoluteUri.Should().StartWith("https://client1/callback");
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IdentityToken.Should().NotBeNull();
             authorization.AccessToken.Should().BeNull();
         }
@@ -115,7 +116,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
             response.StatusCode.Should().Be(HttpStatusCode.Found);
             response.Headers.Location.AbsoluteUri.Should().StartWith("https://client1/callback");
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IdentityToken.Should().NotBeNull();
             authorization.AccessToken.Should().NotBeNull();
         }
@@ -134,7 +135,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
             response.StatusCode.Should().Be(HttpStatusCode.Found);
             response.Headers.Location.AbsoluteUri.Should().StartWith("https://client2/callback");
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IdentityToken.Should().NotBeNull();
             authorization.AccessToken.Should().BeNull();
         }
@@ -167,7 +168,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
             response.StatusCode.Should().Be(HttpStatusCode.Found);
             response.Headers.Location.AbsoluteUri.Should().StartWith("https://client3/callback");
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IdentityToken.Should().NotBeNull();
             authorization.AccessToken.Should().BeNull();
             authorization.Code.Should().NotBeNull();
@@ -187,7 +188,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
             response.StatusCode.Should().Be(HttpStatusCode.Found);
             response.Headers.Location.AbsoluteUri.Should().StartWith("https://client3/callback");
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IdentityToken.Should().NotBeNull();
             authorization.AccessToken.Should().NotBeNull();
             authorization.Code.Should().NotBeNull();
@@ -208,7 +209,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
             response.StatusCode.Should().Be(HttpStatusCode.Found);
             response.Headers.Location.AbsoluteUri.Should().StartWith("https://client4/callback");
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IdentityToken.Should().NotBeNull();
             authorization.AccessToken.Should().BeNull();
             authorization.Code.Should().NotBeNull();

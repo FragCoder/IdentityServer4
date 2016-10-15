@@ -2,9 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4;
-using IdentityServer4.Models;
 using System.Collections.Generic;
+using IdentityServer4;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
 
 namespace Host.Configuration
 {
@@ -26,7 +27,7 @@ namespace Host.Configuration
                     },
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "api1", "api2" },
+                    AllowedScopes = { "api1", "api2" }
                 },
 
                 ///////////////////////////////////////////
@@ -128,8 +129,8 @@ namespace Host.Configuration
                         StandardScopes.Roles.Name,
                         StandardScopes.OfflineAccess.Name,
 
-                        "api1", "api2",
-                    },
+                        "api1", "api2"
+                    }
                 },
 
                 ///////////////////////////////////////////
@@ -173,7 +174,7 @@ namespace Host.Configuration
                         StandardScopes.Roles.Name,
 
                         "api1", "api2"
-                    },
+                    }
                 },
 
                 ///////////////////////////////////////////
@@ -191,7 +192,7 @@ namespace Host.Configuration
                     LogoutUri = "http://localhost:44077/signout-oidc",
                     PostLogoutRedirectUris = { "http://localhost:44077/" },
 
-                    AllowedScopes = { StandardScopes.OpenId.Name },
+                    AllowedScopes = { StandardScopes.OpenId.Name }
                 },
 
                 ///////////////////////////////////////////
@@ -223,8 +224,8 @@ namespace Host.Configuration
                         StandardScopes.Roles.Name,
                         StandardScopes.OfflineAccess.Name,
 
-                        "api1", "api2",
-                    },
+                        "api1", "api2"
+                    }
                 },
 
                 ///////////////////////////////////////////
@@ -240,7 +241,7 @@ namespace Host.Configuration
                     AllowAccessTokensViaBrowser = true,
 
                     RedirectUris = { "http://localhost:28895/index.html" },
-                    AllowedScopes = { "api1", "api2" },
+                    AllowedScopes = { "api1", "api2" }
                 },
                 
                 ///////////////////////////////////////////
@@ -260,7 +261,7 @@ namespace Host.Configuration
                     RedirectUris = 
                     {
                         "http://localhost:7017/index.html",
-                        "http://localhost:7017/silent_renew.html",
+                        "http://localhost:7017/silent_renew.html"
                     },
 
                     PostLogoutRedirectUris = { "http://localhost:7017/index.html" },
@@ -273,8 +274,8 @@ namespace Host.Configuration
                         StandardScopes.Email.Name,
                         StandardScopes.Roles.Name,
                         "api1", "api2"
-                    },
-                },
+                    }
+                }
             };
         }
     }

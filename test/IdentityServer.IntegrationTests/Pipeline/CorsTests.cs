@@ -2,16 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Threading.Tasks;
-using Xunit;
-using FluentAssertions;
-using System.Net;
 using System.Collections.Generic;
-using IdentityServer4.Models;
-using System.Security.Claims;
+using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using FluentAssertions;
 using IdentityServer4.IntegrationTests.Common;
+using IdentityServer4.Models;
 using IdentityServer4.Services.InMemory;
+using Xunit;
 
 namespace IdentityServer4.IntegrationTests.Pipeline
 {
@@ -23,7 +23,7 @@ namespace IdentityServer4.IntegrationTests.Pipeline
 
         public CorsTests()
         {
-            _pipeline.Clients.AddRange(new Client[] {
+            _pipeline.Clients.AddRange(new[] {
                 new Client
                 {
                     ClientId = "client",
@@ -39,15 +39,15 @@ namespace IdentityServer4.IntegrationTests.Pipeline
             {
                 Subject = "bob",
                 Username = "bob",
-                Claims = new Claim[]
+                Claims = new[]
                 {
                     new Claim("name", "Bob Loblaw"),
                     new Claim("email", "bob@loblaw.com"),
-                    new Claim("role", "Attorney"),
+                    new Claim("role", "Attorney")
                 }
             });
 
-            _pipeline.Scopes.AddRange(new Scope[] {
+            _pipeline.Scopes.AddRange(new[] {
                 StandardScopes.OpenId,
                 StandardScopes.Profile,
                 StandardScopes.Email,

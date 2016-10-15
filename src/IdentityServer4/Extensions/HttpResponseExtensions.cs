@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4;
-using IdentityServer4.Extensions;
 using System.Text;
 using System.Threading.Tasks;
+using IdentityServer4.Infrastructure;
+using Microsoft.AspNetCore.Http;
 
-namespace Microsoft.AspNetCore.Http
+namespace IdentityServer4.Extensions
 {
     public static class HttpResponseExtensions
     {

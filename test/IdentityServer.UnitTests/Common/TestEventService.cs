@@ -2,13 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using IdentityServer4.Events;
 using FluentAssertions;
+using IdentityServer4.Events.Base;
+using IdentityServer4.Services;
 
 namespace IdentityServer4.UnitTests.Common
 {

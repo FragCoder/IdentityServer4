@@ -3,8 +3,9 @@
 
 
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
-namespace Microsoft.AspNetCore.Http
+namespace IdentityServer4.Extensions
 {
     public static class HttpRequestExtensions
     {

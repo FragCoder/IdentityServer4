@@ -2,15 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Threading.Tasks;
-using Xunit;
-using FluentAssertions;
-using System.Net;
 using System.Collections.Generic;
-using IdentityServer4.Models;
+using System.Net;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using FluentAssertions;
 using IdentityServer4.IntegrationTests.Common;
+using IdentityServer4.Models;
+using IdentityServer4.Models.Messages;
 using IdentityServer4.Services.InMemory;
+using Xunit;
+using AuthorizeResponse = IdentityModel.Client.AuthorizeResponse;
 
 namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 {
@@ -22,7 +24,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
 
         public AuthorizeTests()
         {
-            _mockPipeline.Clients.AddRange(new Client[] {
+            _mockPipeline.Clients.AddRange(new[] {
                 new Client
                 {
                     ClientId = "client1",
@@ -57,15 +59,15 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             {
                 Subject = "bob",
                 Username = "bob",
-                Claims = new Claim[]
+                Claims = new[]
                 {
                     new Claim("name", "Bob Loblaw"),
                     new Claim("email", "bob@loblaw.com"),
-                    new Claim("role", "Attorney"),
+                    new Claim("role", "Attorney")
                 }
             });
 
-            _mockPipeline.Scopes.AddRange(new Scope[] {
+            _mockPipeline.Scopes.AddRange(new[] {
                 StandardScopes.OpenId,
                 StandardScopes.Profile,
                 StandardScopes.Email,
@@ -145,7 +147,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             _mockPipeline.LoginRequest.IdP.Should().Be("idp_value");
             _mockPipeline.LoginRequest.Tenant.Should().Be("tenant_value");
             _mockPipeline.LoginRequest.LoginHint.Should().Be("login_hint_value");
-            _mockPipeline.LoginRequest.AcrValues.ShouldAllBeEquivalentTo(new string[] { "acr_2", "acr_1" });
+            _mockPipeline.LoginRequest.AcrValues.ShouldAllBeEquivalentTo(new[] { "acr_2", "acr_1" });
             // todo: add custom params to signin message
         }
 
@@ -168,7 +170,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             response.StatusCode.Should().Be(HttpStatusCode.Redirect);
             response.Headers.Location.ToString().Should().StartWith("https://client1/callback");
 
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IsError.Should().BeFalse();
             authorization.IdentityToken.Should().NotBeNull();
             authorization.State.Should().Be("123_state");
@@ -194,7 +196,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             response.StatusCode.Should().Be(HttpStatusCode.Redirect);
             response.Headers.Location.ToString().Should().StartWith("https://client1/callback");
 
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IsError.Should().BeFalse();
             authorization.IdentityToken.Should().NotBeNull();
             authorization.State.Should().Be("123_state");
@@ -246,7 +248,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             _mockPipeline.ConsentRequest.ClientId.Should().Be("client2");
             _mockPipeline.ConsentRequest.DisplayMode.Should().Be("popup");
             _mockPipeline.ConsentRequest.UiLocales.Should().Be("ui_locale_value");
-            _mockPipeline.ConsentRequest.ScopesRequested.ShouldAllBeEquivalentTo(new string[] { "api2", "openid", "api1" });
+            _mockPipeline.ConsentRequest.ScopesRequested.ShouldAllBeEquivalentTo(new[] { "api2", "openid", "api1" });
         }
 
         [Fact]
@@ -255,9 +257,9 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
         {
             await _mockPipeline.LoginAsync("bob");
 
-            _mockPipeline.ConsentResponse = new ConsentResponse()
+            _mockPipeline.ConsentResponse = new ConsentResponse
             {
-                ScopesConsented = new string[] { "openid", "api2" }
+                ScopesConsented = new[] { "openid", "api2" }
             };
             _mockPipeline.BrowserClient.StopRedirectingAfter = 2;
 
@@ -273,23 +275,23 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             response.StatusCode.Should().Be(HttpStatusCode.Redirect);
             response.Headers.Location.ToString().Should().StartWith("https://client2/callback");
 
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IsError.Should().BeFalse();
             authorization.IdentityToken.Should().NotBeNull();
             authorization.State.Should().Be("123_state");
             var scopes = authorization.Scope.Split(' ');
-            scopes.ShouldAllBeEquivalentTo(new string[] { "api2", "openid" });
+            scopes.ShouldAllBeEquivalentTo(new[] { "api2", "openid" });
         }
 
-        [Fact()]
+        [Fact]
         [Trait("Category", Category)]
         public async Task consent_response_missing_required_scopes_should_error()
         {
             await _mockPipeline.LoginAsync("bob");
 
-            _mockPipeline.ConsentResponse = new ConsentResponse()
+            _mockPipeline.ConsentResponse = new ConsentResponse
             {
-                ScopesConsented = new string[] { "api2" }
+                ScopesConsented = new[] { "api2" }
             };
             _mockPipeline.BrowserClient.StopRedirectingAfter = 2;
 
@@ -304,7 +306,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             response.StatusCode.Should().Be(HttpStatusCode.Redirect);
             response.Headers.Location.ToString().Should().StartWith("https://client2/callback");
 
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IsError.Should().BeTrue();
             authorization.Error.Should().Be("access_denied");
             authorization.State.Should().Be("123_state");
@@ -316,9 +318,9 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
         {
             _mockPipeline.Subject = IdentityServerPrincipal.Create("bob", "Bob Loblaw");
 
-            _mockPipeline.ConsentResponse = new ConsentResponse()
+            _mockPipeline.ConsentResponse = new ConsentResponse
             {
-                ScopesConsented = new string[] { "openid", "api1", "profile" }
+                ScopesConsented = new[] { "openid", "api1", "profile" }
             };
 
             _mockPipeline.BrowserClient.StopRedirectingAfter = 4;
@@ -335,12 +337,12 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Authorize
             response.StatusCode.Should().Be(HttpStatusCode.Redirect);
             response.Headers.Location.ToString().Should().StartWith("https://client2/callback");
 
-            var authorization = new IdentityModel.Client.AuthorizeResponse(response.Headers.Location.ToString());
+            var authorization = new AuthorizeResponse(response.Headers.Location.ToString());
             authorization.IsError.Should().BeFalse();
             authorization.IdentityToken.Should().NotBeNull();
             authorization.State.Should().Be("123_state");
             var scopes = authorization.Scope.Split(' ');
-            scopes.ShouldAllBeEquivalentTo(new string[] { "profile", "api1", "openid" });
+            scopes.ShouldAllBeEquivalentTo(new[] { "profile", "api1", "openid" });
         }
 
         [Fact]

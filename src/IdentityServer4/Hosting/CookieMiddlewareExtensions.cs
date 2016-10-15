@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +30,7 @@ namespace IdentityServer4.Hosting
                         AutomaticAuthenticate = true,
                         SlidingExpiration = false,
                         ExpireTimeSpan = Constants.DefaultCookieTimeSpan,
-                        CookieName = IdentityServerConstants.DefaultCookieAuthenticationScheme,
+                        CookieName = IdentityServerConstants.DefaultCookieAuthenticationScheme
                     });
                 }
                 else

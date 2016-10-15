@@ -3,7 +3,7 @@
 
 
 using IdentityServer4.Extensions;
-using IdentityServer4.Validation;
+using IdentityServer4.Validation.Models;
 
 namespace IdentityServer4.Models
 {

@@ -59,7 +59,7 @@ namespace IdentityServer4.Models
         {
             var other = obj as ScopeClaim;
             if (obj == null) return false;
-            if (Object.ReferenceEquals(other, this)) return true;
+            if (ReferenceEquals(other, this)) return true;
 
             return String.Equals(other.Name, Name, StringComparison.Ordinal);
         }

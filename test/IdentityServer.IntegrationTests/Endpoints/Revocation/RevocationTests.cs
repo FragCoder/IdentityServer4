@@ -2,17 +2,20 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel.Client;
-using IdentityServer4.IntegrationTests.Common;
-using IdentityServer4.Models;
-using IdentityServer4.Services.InMemory;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityModel.Client;
+using IdentityServer4.Extensions;
+using IdentityServer4.IntegrationTests.Common;
+using IdentityServer4.Models;
+using IdentityServer4.Services.InMemory;
 using Xunit;
+using TokenResponse = IdentityModel.Client.TokenResponse;
 
 namespace IdentityServer4.IntegrationTests.Endpoints.Revocation
 {
@@ -48,15 +51,15 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Revocation
             {
                 Subject = "bob",
                 Username = "bob",
-                Claims = new Claim[]
+                Claims = new[]
                 {
                     new Claim("name", "Bob Loblaw"),
                     new Claim("email", "bob@loblaw.com"),
-                    new Claim("role", "Attorney"),
+                    new Claim("role", "Attorney")
                 }
             });
 
-            _mockPipeline.Scopes.AddRange(new Scope[] {
+            _mockPipeline.Scopes.AddRange(new[] {
                 StandardScopes.OpenId,
                 StandardScopes.OfflineAccess,
                 new Scope
@@ -72,7 +75,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Revocation
 
         class Tokens
         {
-            public Tokens(IdentityModel.Client.TokenResponse response)
+            public Tokens(TokenResponse response)
             {
                 AccessToken = response.AccessToken;
                 RefreshToken = response.RefreshToken;
@@ -111,7 +114,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Revocation
             var response = await introspectionClient.SendAsync(new IntrospectionRequest
             {
                 Token = tokens.AccessToken,
-                TokenTypeHint = IdentityModel.OidcConstants.TokenTypes.AccessToken
+                TokenTypeHint = OidcConstants.TokenTypes.AccessToken
             });
             return response.IsError == false && response.IsActive;
         }
@@ -241,7 +244,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Revocation
             var data = new Dictionary<string, string>
             {
                 { "client_id", client_id },
-                { "client_secret", client_secret },
+                { "client_secret", client_secret }
             };
 
             var response = await _mockPipeline.Client.PostAsync(MockIdSvrUiPipeline.RevocationEndpoint, new FormUrlEncodedContent(data));
@@ -264,7 +267,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Revocation
                 { "client_id", client_id },
                 { "client_secret", client_secret },
                 { "token", tokens.AccessToken },
-                { "token_type_hint", "not_valid" },
+                { "token_type_hint", "not_valid" }
             };
 
             var response = await _mockPipeline.Client.PostAsync(MockIdSvrUiPipeline.RevocationEndpoint, new FormUrlEncodedContent(data));
@@ -286,7 +289,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Revocation
             {
                 { "client_id", client_id },
                 { "client_secret", client_secret },
-                { "token", tokens.AccessToken },
+                { "token", tokens.AccessToken }
             };
 
             var response = await _mockPipeline.Client.PostAsync(MockIdSvrUiPipeline.RevocationEndpoint, new FormUrlEncodedContent(data));
@@ -306,7 +309,7 @@ namespace IdentityServer4.IntegrationTests.Endpoints.Revocation
             {
                 { "client_id", client_id },
                 { "client_secret", client_secret },
-                { "token", tokens.RefreshToken },
+                { "token", tokens.RefreshToken }
             };
 
             var response = await _mockPipeline.Client.PostAsync(MockIdSvrUiPipeline.RevocationEndpoint, new FormUrlEncodedContent(data));

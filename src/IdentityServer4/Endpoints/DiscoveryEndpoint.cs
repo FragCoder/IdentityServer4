@@ -2,8 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using IdentityModel;
-using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection.Options;
 using IdentityServer4.Endpoints.Results;
 using IdentityServer4.Extensions;
 using IdentityServer4.Hosting;
@@ -11,15 +17,11 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Validation;
+using IdentityServer4.Validation.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
+using JsonWebKey = IdentityServer4.Models.JsonWebKey;
 
 namespace IdentityServer4.Endpoints
 {
@@ -59,10 +61,7 @@ namespace IdentityServer4.Endpoints
             {
                 return ExecuteJwksAsync(context);
             }
-            else
-            {
-                return ExecuteDiscoDocAsync(context);
-            }
+            return ExecuteDiscoDocAsync(context);
         }
 
         private async Task<IEndpointResult> ExecuteDiscoDocAsync(HttpContext context)
@@ -223,7 +222,7 @@ namespace IdentityServer4.Endpoints
                 return new StatusCodeResult(404);
             }
 
-            var webKeys = new List<Models.JsonWebKey>();
+            var webKeys = new List<JsonWebKey>();
             foreach (var key in await _keys.GetValidationKeysAsync())
             {
                 // todo
@@ -246,7 +245,7 @@ namespace IdentityServer4.Endpoints
                     var exponent = Base64Url.Encode(parameters.Exponent);
                     var modulus = Base64Url.Encode(parameters.Modulus);
 
-                    var webKey = new Models.JsonWebKey
+                    var webKey = new JsonWebKey
                     {
                         kty = "RSA",
                         use = "sig",
@@ -268,13 +267,13 @@ namespace IdentityServer4.Endpoints
                     var exponent = Base64Url.Encode(parameters.Exponent);
                     var modulus = Base64Url.Encode(parameters.Modulus);
 
-                    var webKey = new Models.JsonWebKey
+                    var webKey = new JsonWebKey
                     {
                         kty = "RSA",
                         use = "sig",
                         kid = rsaKey.KeyId,
                         e = exponent,
-                        n = modulus,
+                        n = modulus
                     };
 
                     webKeys.Add(webKey);

@@ -4,7 +4,7 @@
 
 using System;
 
-namespace IdentityServer4.Events
+namespace IdentityServer4.Events.Informational
 {
     /// <summary>
     /// Details class for signing certificate validation

@@ -8,18 +8,20 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
 using IdentityModel;
-using IdentityServer4.Configuration;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using IdentityServer4.Stores.InMemory;
 using IdentityServer4.UnitTests.Common;
-using IdentityServer4.UnitTests.Validation;
+using IdentityServer4.UnitTests.Validation.Setup;
 using IdentityServer4.Validation;
+using IdentityServer4.Validation.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
-namespace IdentityServer4.Tests.Validation.Secrets
+namespace IdentityServer4.UnitTests.Validation.Secrets
 {
     public class PrivateKeyJwtSecretValidation
     {
@@ -30,8 +32,8 @@ namespace IdentityServer4.Tests.Validation.Secrets
         {
             _validator = new PrivateKeyJwtSecretValidator(
                 new MockHttpContextAccessor(
-                    new IdentityServerOptions()
-                        {
+                    new IdentityServerOptions
+                    {
                             IssuerUri = "https://idsrv3.com"
                         }
                     ),
@@ -48,7 +50,7 @@ namespace IdentityServer4.Tests.Validation.Secrets
             var token = new JwtSecurityToken(
                     clientId,
                     "https://idsrv3.com/connect/token",
-                    new List<Claim>()
+                    new List<Claim>
                     {
                         new Claim("jti", Guid.NewGuid().ToString()),
                         new Claim(JwtClaimTypes.Subject, clientId),

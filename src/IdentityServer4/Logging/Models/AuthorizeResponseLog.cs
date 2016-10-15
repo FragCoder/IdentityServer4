@@ -5,7 +5,7 @@
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 
-namespace IdentityServer4.Logging
+namespace IdentityServer4.Logging.Models
 {
     internal class AuthorizeResponseLog
     {

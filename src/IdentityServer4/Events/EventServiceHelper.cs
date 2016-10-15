@@ -5,8 +5,10 @@
 using System;
 using System.Diagnostics;
 using IdentityModel;
+using IdentityServer4.Configuration.DependencyInjection.Options;
+using IdentityServer4.Events.Base;
+using IdentityServer4.Infrastructure;
 using Microsoft.AspNetCore.Http;
-using IdentityServer4.Configuration;
 
 namespace IdentityServer4.Events
 {
@@ -46,7 +48,7 @@ namespace IdentityServer4.Events
             {
                 ActivityId = _context.HttpContext.TraceIdentifier,
                 TimeStamp = DateTimeHelper.UtcNow,
-                ProcessId = Process.GetCurrentProcess().Id,
+                ProcessId = Process.GetCurrentProcess().Id
             };
 
             if (_context.HttpContext.Connection.RemoteIpAddress != null)

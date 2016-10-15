@@ -5,8 +5,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using IdentityServer4.Models.Contexts;
 
-namespace IdentityServer4.Models
+namespace IdentityServer4.Extensions
 {
     public static class ProfileDataRequestContextExtensions
     {

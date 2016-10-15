@@ -2,14 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentAssertions;
-using IdentityModel;
-using IdentityServer4.Stores;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using FluentAssertions;
+using IdentityModel;
+using IdentityServer4.Extensions;
+using IdentityServer4.Stores;
+using IdentityServer4.UnitTests.Validation.Setup;
 using Xunit;
 
-namespace IdentityServer4.UnitTests.Validation.TokenRequest
+namespace IdentityServer4.UnitTests.Validation.TokenRequest_Validation
 {
     public class TokenRequestValidation_ExtensionGrants_Invalid
     {

@@ -2,6 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using FluentAssertions;
 using IdentityModel;
 using IdentityServer4.Extensions;
@@ -9,12 +15,6 @@ using IdentityServer4.IntegrationTests.Common;
 using IdentityServer4.Services;
 using IdentityServer4.Services.InMemory;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace IdentityServer4.IntegrationTests.Pipeline
@@ -38,11 +38,11 @@ namespace IdentityServer4.IntegrationTests.Pipeline
             {
                 Subject = "bob",
                 Username = "bob",
-                Claims = new Claim[]
+                Claims = new[]
                {
                     new Claim("name", "Bob Loblaw"),
                     new Claim("email", "bob@loblaw.com"),
-                    new Claim("role", "Attorney"),
+                    new Claim("role", "Attorney")
                }
             });
 

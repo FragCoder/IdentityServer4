@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace IdentityServer4.Configuration
+namespace IdentityServer4.Configuration.DependencyInjection.Options
 {
     /// <summary>
     /// Options class to configure discovery endpoint
